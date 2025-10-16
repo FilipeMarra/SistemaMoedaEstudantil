@@ -1,0 +1,39 @@
+.user-list-container {
+  max-width: 900px;
+  margin: 2rem auto;
+  padding: 0 1rem;
+  min-height: calc(100vh - 160px);
+}
+
+.user-list-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+[data-theme="light"] .user-list-header h1 {
+  color: #000;
+}
+
+.register-button {
+  background-color: #6ee7b7;
+  color: #0f172a; 
+  padding: 12px 20px;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: bold;
+  transition: opacity 0.2s;
+}
+
+.register-button:hover {
+  opacity: 0.8;
+}
+.register-button:hover {
+  opacity: 0.8;
+}
+
+.user-list {
+  display: grid;
+  gap: 1rem;
+}

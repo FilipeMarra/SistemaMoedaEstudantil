@@ -1,0 +1,97 @@
+.register-form {
+  display: flex;
+  flex-direction: column;
+  gap: 18px; /* Aumenta o espaçamento entre os campos */
+}
+
+.register-form h2 {
+  text-align: center;
+  margin: 0 0 10px 0;
+  font-weight: 600;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px; /* Espaçamento entre label e input */
+}
+
+.form-group label {
+  font-weight: 500;
+  font-size: 0.9rem;
+  color: #cbd5e1; /* Cor para tema escuro */
+}
+
+.form-group input {
+  padding: 12px 15px; /* Mais padding interno */
+  border-radius: 6px;
+  border: 1px solid #555;
+  background-color: #333;
+  color: #fff;
+  font-size: 1rem;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.form-group input::placeholder {
+  color: #777;
+}
+
+/* Efeito de foco para o input */
+.form-group input:focus {
+  outline: none;
+  border-color: #6ee7b7;
+  box-shadow: 0 0 0 3px rgba(110, 231, 183, 0.3);
+}
+
+.submit-button {
+  width: 100%; /* Botão ocupa a largura toda */
+  padding: 14px 20px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  background-color: #6ee7b7;
+  color: #0f172a;
+  font-weight: bold;
+  font-size: 1rem;
+  margin-top: 15px; /* Espaço extra antes do botão */
+  transition: transform 0.2s, background-color 0.2s;
+}
+
+.submit-button:hover {
+  transform: translateY(-2px); /* Efeito de elevação */
+  background-color: #5ce0ab;
+}
+
+
+/* --- Estilos para Tema Claro --- */
+[data-theme="light"] .form-group label {
+  color: #334155;
+}
+
+[data-theme="light"] .form-group input {
+  border: 1px solid #ccc;
+  background-color: #f8fafc;
+  color: #0f172a;
+}
+
+[data-theme="light"] .form-group input::placeholder {
+  color: #94a3b8;
+}
+
+.error-message {
+  /* Cor do texto em um tom de vermelho vivo */
+  color: #ef4444; 
+  
+  /* Cor de fundo em um tom de vermelho bem claro para dar destaque */
+  background-color: #fee2e2;
+  
+  /* Borda sutil na mesma cor do texto */
+  border: 1px solid #ef4444;
+  
+  /* Estilos para deixar o box mais agradável */
+  padding: 12px;
+  border-radius: 6px;
+  text-align: center;
+  margin-bottom: 10px;
+  font-weight: 500;
+}
