@@ -1,0 +1,75 @@
+/* Estilo para a página de cadastro de acervo */
+
+.form-control, .form-select {
+  background-color: rgba(255, 255, 255, 0.9);
+  border: 1px solid #333;
+  border-radius: 6px;
+  color: #212529;
+  transition: all 0.3s ease;
+}
+
+.form-control:focus, .form-select:focus {
+  background-color: #fff;
+  border-color: #80bdff;
+  box-shadow: 0 0 0 0.25rem rgba(0, 123, 255, 0.25);
+}
+
+.form-label {
+  font-weight: 500;
+  margin-bottom: 0.5rem;
+  color: #f8f9fa;
+}
+
+.section-title {
+  color: #fff;
+  background-color: rgba(0, 0, 0, 0.5);
+  padding: 0.75rem;
+  margin-bottom: 1.5rem;
+  border-radius: 6px;
+  text-align: center;
+}
+
+.card {
+  transition: all 0.3s ease;
+}
+
+.card:hover {
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+}
+
+.btn {
+  transition: all 0.3s ease;
+}
+
+.btn:hover {
+  transform: translateY(-2px);
+}
+
+/* Estilo para os cabeçalhos de seção */
+.section-header {
+  background-color: rgba(0, 0, 0, 0.6);
+  color: white;
+  text-align: center;
+  padding: 10px 15px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Estilo para espaçamento entre campos */
+.input-group {
+  margin-bottom: 1.5rem;
+}
+
+/* Estilo para melhorar a responsividade em telas pequenas */
+@media (max-width: 768px) {
+  .container {
+    max-width: 100%;
+    padding: 0 15px;
+  }
+  
+  .btn {
+    width: 100%;
+    margin-bottom: 10px;
+  }
+}

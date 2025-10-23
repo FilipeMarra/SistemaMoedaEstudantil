@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react'
 import { Link, NavLink,useLocation } from 'react-router-dom'
 import { Sun, Moon } from 'lucide-react'
-import logo from '/logo-santo-restauro.jpg'
 
 
 
@@ -21,7 +20,7 @@ export default function Header() {
     <header className="header">
       <div className="container header-row">
         <Link to="/" className="brand">
-  <img src={logo} alt="Santo Restauro" style={{ height: 32, width: 'auto' }} />
+  
 </Link>
 
 
