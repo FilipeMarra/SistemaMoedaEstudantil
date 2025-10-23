@@ -12,42 +12,97 @@ class EmpresaParceiraSerializer(ModelSerializer):
         # Definimos quais campos do modelo serão expostos na API.
         fields = '__all__'
 
+# ==========================================================
+# USER
+# ==========================================================
+class UserSerializer(ModelSerializer):
+    class Meta:
+        model = User
+        fields = ['id', 'username', 'email', 'password']
+        extra_kwargs = {
+            'password': {'write_only': True}
+        }
+
+
+# ==========================================================
+# PERFIL
+# ==========================================================
+class PerfilUsuarioSerializer(ModelSerializer):
+    user = UserSerializer(read_only=True)
+
+    class Meta:
+        model = PerfilUsuario
+        fields = ['id', 'user', 'tipo', 'cpf', 'rg', 'endereco']
+        read_only_fields = ['tipo']
+
+
+# ==========================================================
+# CURSO / INSTITUIÇÃO
+# ==========================================================
+class CursoSerializer(ModelSerializer):
+    class Meta:
+        model = Curso
+        fields = ['id', 'nome']
+
+
 class InstituicaoSerializer(ModelSerializer):
     class Meta:
         model = InstituicaoEnsino
         fields = ['id', 'nome']
 
 
-class CursoSerializer(ModelSerializer):
-    class Meta:
-        model = Curso
-        fields = ['id', 'nome', 'instituicao']
-
-
-class UserSerializer(ModelSerializer):
-    class Meta:
-        model = User
-        fields = ['id', 'username', 'email', 'first_name', 'last_name']
-
-
-class PerfilUsuarioSerializer(ModelSerializer):
-    class Meta:
-        model = PerfilUsuario
-        fields = ['cpf', 'rg', 'endereco']
-
-
+# ==========================================================
+# ALUNO
+# ==========================================================
 class AlunoSerializer(ModelSerializer):
-    user = UserSerializer()
-    perfil = PerfilUsuarioSerializer()
-    
+    # leitura detalhada
+    perfil_detalhes = PerfilUsuarioSerializer(source='perfil', read_only=True)
+    curso_detalhes = CursoSerializer(source='curso', read_only=True)
+    instituicao_detalhes = InstituicaoSerializer(source='instituicao', read_only=True)
+
+    # escrita (criação)
+    user = UserSerializer(write_only=True)
+    perfil = PerfilUsuarioSerializer(write_only=True)
+
     class Meta:
         model = Aluno
-        fields = ['id', 'user', 'perfil', 'instituicao', 'curso', 'saldo']
+        fields = [
+            'id',
+            'user',
+            'perfil',
+            'instituicao',
+            'curso',
+            'saldo',
+            # detalhes de leitura
+            'perfil_detalhes',
+            'curso_detalhes',
+            'instituicao_detalhes',
+        ]
 
     def create(self, validated_data):
         user_data = validated_data.pop('user')
         perfil_data = validated_data.pop('perfil')
-        user = User.objects.create_user(**user_data)
-        perfil = PerfilUsuario.objects.create(user=user, tipo='ALUNO', **perfil_data)
-        aluno = Aluno.objects.create(user=user, **validated_data)
+
+        # Cria usuário
+        user = User.objects.create_user(
+            username=user_data['username'],
+            email=user_data.get('email', ''),
+            password=user_data['password']
+        )
+
+        # Cria perfil
+        perfil = PerfilUsuario.objects.create(
+            user=user,
+            tipo='ALUNO',  # fixo para esse caso
+            cpf=perfil_data.get('cpf'),
+            rg=perfil_data.get('rg'),
+            endereco=perfil_data.get('endereco')
+        )
+
+        # Cria aluno (agora com perfil)
+        aluno = Aluno.objects.create(
+            user=user,
+            **validated_data
+        )
+
         return aluno

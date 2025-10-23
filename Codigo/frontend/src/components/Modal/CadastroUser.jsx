@@ -3,7 +3,7 @@ import './CadastroUser.css';
 import Swal from 'sweetalert2';
 
 // endpoints ajustados
-const API_ALUNO_CREATE = 'http://localhost:8000/api/alunos/cadastrar/'; // endpoint único recomendado
+const API_ALUNO_CREATE = 'http://localhost:8000/api/aln/cadastrar/'; // endpoint único recomendado
 const API_INSTITUICOES = 'http://localhost:8000/api/instituicoes/';
 const API_CURSOS_POR_INSTITUICAO = (instituicaoId) => `http://localhost:8000/api/cursos/${instituicaoId}/`;
 

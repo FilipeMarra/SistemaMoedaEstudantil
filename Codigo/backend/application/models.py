@@ -2,6 +2,9 @@ from django.db import models
 from django.contrib.auth.models import User
 import uuid
 
+from django.db import models
+from django.contrib.auth.models import User
+
 # ==========================================================
 # PERFIL DE USUÁRIO (para diferenciar tipos)
 # ==========================================================
@@ -48,14 +51,13 @@ class Curso(models.Model):
 # ALUNO
 # ==========================================================
 class Aluno(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='aluno')
+    perfil = models.OneToOneField(PerfilUsuario, on_delete=models.CASCADE, related_name='aluno')
     instituicao = models.ForeignKey(InstituicaoEnsino, on_delete=models.CASCADE, related_name='alunos')
     curso = models.ForeignKey(Curso, on_delete=models.SET_NULL, null=True, blank=True)
     saldo = models.DecimalField(max_digits=10, decimal_places=2, default=0)
 
     def __str__(self):
-        return self.user.get_full_name() or self.user.username
-
+        return self.perfil.user.get_full_name() or self.perfil.user.username
 
 # ==========================================================
 # PROFESSOR

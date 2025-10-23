@@ -25,7 +25,7 @@ export default function Header() {
 
 
         <nav className="nav">
-          <NavLink to="/" end>Início</NavLink>
+          <NavLink to="/listagem-aluno" end>Início</NavLink>
         </nav>
         {isLandingPage && (<Link to="/login" className="header-login-button">Login</Link>)}
         <div className="user" style={{ gap: 12 }}>
