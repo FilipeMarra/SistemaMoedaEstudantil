@@ -89,6 +89,7 @@ const CadastroUser = () => {
       const res = await fetch(API_ALUNO_CREATE, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
+        credentials: "omit", // 👈 ESSENCIAL!
         body: JSON.stringify(payload),
       });
 

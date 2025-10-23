@@ -105,4 +105,8 @@ class AlunoSerializer(ModelSerializer):
             **validated_data
         )
 
+<<<<<<< HEAD
         return aluno
+=======
+        return aluno
+>>>>>>> main
