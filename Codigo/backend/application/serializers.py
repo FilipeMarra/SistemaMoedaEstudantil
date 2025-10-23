@@ -25,9 +25,14 @@ class CursoSerializer(ModelSerializer):
 
 
 class UserSerializer(ModelSerializer):
+    password = CharField(write_only=True)  # 🔥 Adicionar isso
+
     class Meta:
         model = User
-        fields = ['id', 'username', 'email', 'first_name', 'last_name']
+        fields = ['id', 'username', 'email', 'password', 'first_name', 'last_name']
+        extra_kwargs = {
+            'password': {'write_only': True}
+        }
 
 
 class PerfilUsuarioSerializer(ModelSerializer):
@@ -38,16 +43,34 @@ class PerfilUsuarioSerializer(ModelSerializer):
 
 class AlunoSerializer(ModelSerializer):
     user = UserSerializer()
-    perfil = PerfilUsuarioSerializer()
-    
+    perfil = PerfilUsuarioSerializer(write_only=True)
+
     class Meta:
         model = Aluno
-        fields = ['id', 'user', 'perfil', 'instituicao', 'curso', 'saldo']
+        fields = ('user', 'perfil', 'instituicao', 'curso')
 
     def create(self, validated_data):
         user_data = validated_data.pop('user')
         perfil_data = validated_data.pop('perfil')
-        user = User.objects.create_user(**user_data)
-        perfil = PerfilUsuario.objects.create(user=user, tipo='ALUNO', **perfil_data)
-        aluno = Aluno.objects.create(user=user, **validated_data)
+
+        # cria usuário com senha criptografada
+        user = User.objects.create_user(
+            username=user_data['username'],
+            email=user_data['email'],
+            password=user_data['password']
+        )
+
+        # cria perfil
+        perfil = PerfilUsuario.objects.create(
+            user=user,
+            tipo='ALUNO',
+            **perfil_data
+        )
+
+        # finalmente cria aluno
+        aluno = Aluno.objects.create(
+            user=user,
+            **validated_data
+        )
+
         return aluno
