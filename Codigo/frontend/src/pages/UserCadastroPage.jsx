@@ -9,7 +9,6 @@ const UserCadastroPage = () => {
     <>
       <Header />
       <main className="user-list-container">
-        <h1>Cadastro de Usuário</h1>
         <CadastroUser />
       </main>
       <Footer />
