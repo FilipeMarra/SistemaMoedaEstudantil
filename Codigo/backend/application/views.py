@@ -30,7 +30,6 @@ class AlunoCreateView(generics.CreateAPIView):
     permission_classes = [permissions.AllowAny]
 
     def post(self, request, *args, **kwargs):
-        print("🔥 CHEGOU NA VIEW DE CADASTRO 🔥")
         return super().post(request, *args, **kwargs)
 class UserViewSet(ModelViewSet):
     """
@@ -43,7 +42,7 @@ class UserViewSet(ModelViewSet):
 class AlunoViewSet(ModelViewSet):
     queryset = Aluno.objects.all()
     serializer_class = AlunoSerializer
-    permission_classes = [IsAuthenticatedOrReadOnly]
+    permission_classes = [permissions.AllowAny]
 
     @action(detail=False, methods=['get'])
     def recentes(self, request):

@@ -8,7 +8,6 @@ import CadastroItemPage from '../pages/CadastroItemPage';
 import EditarAcervoPage from '../pages/EditarAcervoPage'; */
 import UserCadastroPage from '../pages/UserCadastroPage';
 /* import LoginPage from '../pages/LoginPage'; */
-import CadastroAlunoPage from '../pages/CadastroAlunoPage';
 import ListagemAlunoPage from '../pages/ListagemAlunoPage';
 
 const AppRoutes = () => {
@@ -23,8 +22,7 @@ const AppRoutes = () => {
         <Route path="/cadastro-acervo" element={<CadastroAcervoPage />} />
         <Route path="/cadastro-item" element={<CadastroItemPage />} />
         <Route path="/editar-acervo/:id" element={<EditarAcervoPage />} /> */}
-        <Route path="/usuarios" element={<UserCadastroPage />} />
-        <Route path="/cadastro-aluno" element={<CadastroAlunoPage />} />
+        <Route path="/cadastrar-aluno" element={<UserCadastroPage />} />
         {/* <Route path="/login" element={<LoginPage />} /> */}
         <Route path="/listagem-aluno" element={<ListagemAlunoPage />} />
       </Routes>

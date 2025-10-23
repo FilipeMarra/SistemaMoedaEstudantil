@@ -67,8 +67,7 @@ const ListagemAlunos = ({ alunosProp }) => {
       if (!q) return true;
       return (
         String(a.id).includes(q) ||
-        (a.nome ?? '').toLowerCase().includes(q) ||
-        (a.descricao ?? '').toLowerCase().includes(q)
+        (a.perfil_detalhes.user.username ?? '').toLowerCase().includes(q)
       );
     });
 
@@ -92,7 +91,34 @@ const ListagemAlunos = ({ alunosProp }) => {
     setSortDir('asc');
   };
 
-  const isAuthenticated = !!localStorage.getItem('access');
+  const isAuthenticated = true
+
+  const handleDelete = async (id) => {
+  if (!window.confirm('Tem certeza que deseja excluir este aluno?')) return;
+
+  try {
+    const token = localStorage.getItem('access');
+
+    const response = await fetch(`${API_URL}/alunos/${id}/`, {
+      method: 'DELETE',
+      headers: {
+        'Authorization': token ? `Bearer ${token}` : '',
+      },
+    });
+
+    if (response.ok) {
+      // Remove o aluno do estado local
+      setAlunos((prev) => prev.filter((a) => a.id !== id));
+    } else {
+      const text = await response.text();
+      alert(`Erro ao excluir: ${text}`);
+    }
+  } catch (err) {
+    console.error('Erro ao excluir aluno:', err);
+    alert('Não foi possível excluir o aluno. Verifique sua conexão.');
+  }
+};
+
 
   return (
     <section className="listagem-alunos">
@@ -228,14 +254,14 @@ const ListagemAlunos = ({ alunosProp }) => {
 
                   <th onClick={() => handleSort('descricao')} style={{ cursor: 'pointer', padding: '15px' }}>
                     <div className="d-flex align-items-center">
-                      <span>Descrição</span>
+                      <span>Curso</span>
                       {sortBy === 'descricao' && (
                         <i className={`bi ms-1 ${sortDir === 'asc' ? 'bi-sort-alpha-down' : 'bi-sort-alpha-up'}`}></i>
                       )}
                     </div>
                   </th>
 
-                  <th style={{ padding: '15px' }}>Imagem</th>
+                  <th style={{ padding: '15px' }}>Instituição</th>
                   <th className="col-acao text-center" style={{ padding: '15px' }}>Ações</th>
                 </tr>
               </thead>
@@ -268,34 +294,40 @@ const ListagemAlunos = ({ alunosProp }) => {
                     </td>
                   </tr>
                 ) : (
-                  filtered.map((aluno) => (
-                    <tr key={aluno.id} className="align-middle">
-                      <td className="col-id">{aluno.id}</td>
-                      <td className="col-nome fw-bold">{aluno.nome || 'Sem nome'}</td>
-                      <td className="col-desc">{aluno.descricao || 'Sem descrição'}</td>
-                      <td style={{ width: '120px' }}>
-                        {aluno.imagem ? (
-                          <img src={aluno.imagem} alt={aluno.nome} style={{ width: '100px', height: '70px', objectFit: 'cover', borderRadius: '6px' }} />
-                        ) : (
-                          <div className="aluno-thumb-placeholder" style={{ width: '100px', height: '70px', display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'rgba(255,255,255,0.03)', borderRadius: '6px', color: '#cbd5e1' }}>
-                            <i className="bi bi-camera" />
-                          </div>
-                        )}
-                      </td>
-                      <td className="col-acao text-center">
-                        <div className="btn-group">
-                          <Link to={`/aluno/${aluno.id}`} className="btn btn-info btn-sm">
-                            <i className="bi bi-eye-fill me-1"></i>
-                          </Link>
-                          {isAuthenticated && (
-                            <Link to={`/editar-aluno/${aluno.id}`} className="btn btn-warning btn-sm">
-                              <i className="bi bi-pencil-fill me-1"></i>
+                  filtered.map((aluno) => {
+                    console.log('aluno recebido:', aluno); // <-- aqui o log
+                    return (
+                      <tr key={aluno.id} className="align-middle">
+                        <td className="col-id">{aluno.id}</td>
+                        <td className="col-nome fw-bold">{aluno.perfil_detalhes.user.username || 'Sem nome'}</td>
+                        <td className="col-desc">{aluno.curso_detalhes.nome || 'Sem curso'}</td>
+                        <td className="col-desc">{aluno.instituicao_detalhes.nome || 'Sem instituição'}</td>
+                        <td className="col-acao text-center">
+                          <div className="btn-group">
+                            <Link to={`/aluno/${aluno.id}`} className="btn btn-info btn-sm">
+                              <i className="bi bi-eye-fill me-1"></i>
                             </Link>
-                          )}
-                        </div>
-                      </td>
-                    </tr>
-                  ))
+
+                            {isAuthenticated && (
+                              <>
+                                <Link to={`/editar-aluno/${aluno.id}`} className="btn btn-warning btn-sm">
+                                  <i className="bi bi-pencil-fill me-1"></i>
+                                </Link>
+
+                                <button
+                                  className="btn btn-danger btn-sm"
+                                  onClick={() => handleDelete(aluno.id)}
+                                >
+                                  <i className="bi bi-trash-fill me-1"></i>
+                                </button>
+                              </>
+                            )}
+                          </div>
+                        </td>
+
+                      </tr>
+                    );
+                  })
                 )}
               </tbody>
             </table>
