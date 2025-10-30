@@ -1,0 +1,123 @@
+/* Estilos para a listagem de alunos */
+
+.listagem-alunos {
+  padding: 20px 0;
+}
+
+.la-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 15px;
+}
+
+.la-titulo {
+  font-size: 2rem;
+  font-weight: bold;
+  margin-bottom: 1.5rem;
+  color: #fff;
+}
+
+.la-filtros {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+.la-filtro-group {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.la-filtro-group .label {
+  margin-bottom: 5px;
+  font-weight: 500;
+  color: #ccc;
+}
+
+.la-input {
+  border: 1px solid #444;
+  background-color: rgba(255, 255, 255, 0.1);
+  color: #fff;
+  border-radius: 5px;
+  padding: 8px 12px;
+  width: 100%;
+  transition: all 0.3s ease;
+}
+
+.la-input:focus {
+  border-color: #6c757d;
+  box-shadow: 0 0 0 0.25rem rgba(108, 117, 125, 0.25);
+  outline: none;
+  background-color: rgba(255, 255, 255, 0.15);
+}
+
+.spinner {
+  animation: spin 1s linear infinite;
+  display: inline-block;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Estilos para a tabela */
+.table {
+  margin-bottom: 0;
+}
+
+.table th, .table td {
+  border-color: #444;
+}
+
+.table th {
+  font-weight: 600;
+  color: #fff;
+}
+
+.table tbody tr:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.col-id {
+  width: 80px;
+}
+
+.col-acao {
+  width: 200px;
+}
+
+.acervo-thumb-placeholder i {
+  font-size: 1.2rem;
+}
+
+/* Estilos para os botões */
+.btn-group {
+  display: flex;
+  gap: 5px;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+  .la-filtros {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  
+  .col-acao {
+    width: auto;
+  }
+  
+  .btn-group {
+    flex-direction: column;
+    width: 100%;
+  }
+  
+  .btn-group .btn {
+    margin-bottom: 5px;
+    width: 100%;
+  }
+}

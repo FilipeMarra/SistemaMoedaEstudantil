@@ -106,3 +106,29 @@ class AlunoSerializer(ModelSerializer):
         )
 
         return aluno
+
+
+class TransacaoSerializer(ModelSerializer):
+    # Campos detalhados (somente leitura)
+    #professor_detalhes = ProfessorSerializer(source='professor', read_only=True)
+    aluno_detalhes = AlunoSerializer(source='aluno', read_only=True)
+    #vantagem_detalhes = VantagemSerializer(source='vantagem', read_only=True)
+
+    class Meta:
+        model = Transacao
+        fields = [
+            'id_transacao',
+            'tipo',
+            'data',
+            'valor',
+            'mensagem',
+            'professor',
+            'aluno',
+            'vantagem',
+            # leitura detalhada
+            #'professor_detalhes',
+            'aluno_detalhes',
+            #'vantagem_detalhes',
+        ]
+        
+        

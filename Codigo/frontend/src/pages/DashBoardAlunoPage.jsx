@@ -28,6 +28,12 @@ const DashboardPage = () => {
 			icon: <BookOpen size={36} />,
 			to: '/extrato',
 		},
+		{
+			title: 'Alunos',
+			desc: 'Lista de alunos cadastrados',
+			icon: <BookOpen size={36} />,
+			to: '/listagem-aluno',
+		},
 	];
 
 	return (
