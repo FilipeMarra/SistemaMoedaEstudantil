@@ -1,0 +1,152 @@
+.transfer-form {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  max-width: 420px;
+  margin: 40px auto;
+  padding: 28px 32px;
+  background-color: #1e293b; /* Fundo do card no tema escuro */
+  border-radius: 10px;
+  box-shadow: 0 0 25px rgba(0, 0, 0, 0.4);
+}
+
+.transfer-form h2 {
+  text-align: center;
+  margin: 0 0 10px 0;
+  font-weight: 600;
+  color: #f1f5f9;
+}
+
+/* --- Campos --- */
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.form-group label {
+  font-weight: 500;
+  font-size: 0.9rem;
+  color: #cbd5e1;
+}
+
+.form-group input {
+  padding: 12px 15px;
+  border-radius: 6px;
+  border: 1px solid #555;
+  background-color: #334155;
+  color: #fff;
+  font-size: 1rem;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.form-group input::placeholder {
+  color: #94a3b8;
+}
+
+.form-group input:focus {
+  outline: none;
+  border-color: #6ee7b7;
+  box-shadow: 0 0 0 3px rgba(110, 231, 183, 0.3);
+}
+
+/* --- Autocomplete --- */
+.autocomplete {
+  position: relative;
+}
+
+.suggestion-list {
+  position: absolute;
+  background-color: #1e293b;
+  border: 1px solid #475569;
+  border-radius: 8px;
+  width: 100%;
+  max-height: 180px;
+  overflow-y: auto;
+  list-style: none;
+  padding: 0;
+  margin-top: 4px;
+  z-index: 50;
+}
+
+.suggestion-list li {
+  padding: 10px 14px;
+  cursor: pointer;
+  color: #f1f5f9;
+  border-bottom: 1px solid #334155;
+}
+
+.suggestion-list li:last-child {
+  border-bottom: none;
+}
+
+.suggestion-list li:hover {
+  background-color: #334155;
+}
+
+/* --- Botão --- */
+button[type="submit"],
+.submit-button {
+  width: 100%;
+  padding: 14px 20px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  background-color: #6ee7b7;
+  color: #0f172a;
+  font-weight: bold;
+  font-size: 1rem;
+  margin-top: 15px;
+  transition: transform 0.2s, background-color 0.2s;
+}
+
+button[type="submit"]:hover {
+  transform: translateY(-2px);
+  background-color: #5ce0ab;
+}
+
+button[type="submit"]:disabled {
+  background-color: #94a3b8;
+  cursor: not-allowed;
+}
+
+/* --- Mensagem de erro --- */
+.error-message {
+  color: #ef4444;
+  background-color: #fee2e2;
+  border: 1px solid #ef4444;
+  padding: 12px;
+  border-radius: 6px;
+  text-align: center;
+  margin-bottom: 10px;
+  font-weight: 500;
+}
+
+/* --- Tema claro --- */
+[data-theme="light"] .transfer-form {
+  background-color: #f8fafc;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+}
+
+[data-theme="light"] .form-group label {
+  color: #334155;
+}
+
+[data-theme="light"] .form-group input {
+  background-color: #f1f5f9;
+  color: #0f172a;
+  border: 1px solid #cbd5e1;
+}
+
+[data-theme="light"] .suggestion-list {
+  background-color: #f8fafc;
+  border: 1px solid #cbd5e1;
+}
+
+[data-theme="light"] .suggestion-list li {
+  color: #1e293b;
+}
+
+[data-theme="light"] .suggestion-list li:hover {
+  background-color: #e2e8f0;
+}

@@ -101,12 +101,8 @@ class AlunoSerializer(ModelSerializer):
 
         # Cria aluno (agora com perfil)
         aluno = Aluno.objects.create(
-            user=user,
+            perfil=perfil,
             **validated_data
         )
 
-<<<<<<< HEAD
         return aluno
-=======
-        return aluno
->>>>>>> main
