@@ -1,12 +1,15 @@
 from rest_framework.viewsets import *
-from rest_framework import generics, permissions
+from rest_framework import generics, permissions,status
 from .models import *
+from rest_framework.views import APIView
+from rest_framework.permissions import IsAuthenticated ,AllowAny
 from .serializers import *
 from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import method_decorator
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from rest_framework.decorators import action
 from rest_framework.response import Response
+from decimal import Decimal
 # from rest_framework.permissions import IsAuthenticated
 
 
@@ -22,8 +25,49 @@ class CursoListView(generics.ListAPIView):
         instituicao_id = self.kwargs.get('instituicao_id')
         return Curso.objects.filter(instituicao_id=instituicao_id)
 
+class TransferirMoedasView(APIView):
+    permission_classes = [AllowAny]
 
+    def post(self, request):
+        try:
+            remetente_id = request.data.get("remetente_id")
+            destinatario_id = request.data.get("destinatario_id")
+            valor = Decimal(request.data.get("valor"))
 
+            if not remetente_id or not destinatario_id:
+                return Response({"erro": "IDs inválidos."}, status=status.HTTP_400_BAD_REQUEST)
+
+            remetente_aluno = Aluno.objects.get(perfil__user__id=remetente_id)
+            destinatario_aluno = Aluno.objects.get(id=destinatario_id)
+
+            # Verifica saldo suficiente
+            if remetente_aluno.saldo < valor:
+                return Response({"erro": "Saldo insuficiente."}, status=status.HTTP_400_BAD_REQUEST)
+
+            # Realiza a transferência
+            remetente_aluno.saldo -= valor
+            destinatario_aluno.saldo += valor
+            remetente_aluno.save()
+            destinatario_aluno.save()
+
+            Transacao.objects.create(
+                tipo="ENVIO",
+                valor=valor,
+                professor=None,
+                aluno=destinatario_aluno,
+                mensagem=f"Transferência de {valor} moedas de {remetente_aluno.perfil.user.username} para {destinatario_aluno.perfil.user.username}"
+            )
+
+            return Response({
+                "mensagem": "Transferência realizada com sucesso!",
+                "remetente": AlunoSerializer(remetente_aluno).data,
+                "destinatario": AlunoSerializer(destinatario_aluno).data
+            }, status=status.HTTP_200_OK)
+
+        except Aluno.DoesNotExist:
+            return Response({"erro": "Aluno não encontrado."}, status=status.HTTP_404_NOT_FOUND)
+        except Exception as e:
+            return Response({"erro": str(e)}, status=status.HTTP_400_BAD_REQUEST)
 @method_decorator(csrf_exempt, name='dispatch')
 class AlunoCreateView(generics.CreateAPIView):
     serializer_class = AlunoSerializer

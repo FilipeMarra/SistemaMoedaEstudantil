@@ -28,7 +28,7 @@ const LoginPage = () => {
         localStorage.setItem("access", data.access);
         localStorage.setItem("refresh", data.refresh);
        
-        navigate("/usuarios");
+        navigate("/dashboard-aluno");
       } else {
         setError("Usuário ou senha inválidos!");
       }

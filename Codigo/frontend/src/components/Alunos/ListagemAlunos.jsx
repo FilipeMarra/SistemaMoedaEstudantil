@@ -134,7 +134,7 @@ const ListagemAlunos = ({ alunosProp }) => {
           </h2>
           {isAuthenticated && (
             <Link 
-              to="/cadastro-aluno" 
+              to="/cadastrar-aluno" 
               className="btn btn-success" 
               style={{ 
                 padding: '10px 20px',
@@ -279,7 +279,7 @@ const ListagemAlunos = ({ alunosProp }) => {
                         <>
                           <i className="bi bi-database-fill-exclamation d-block mb-3" style={{ fontSize: '2rem' }}></i>
                           <p className="mb-0">Não há alunos cadastrados no sistema.</p>
-                          <Link to="/cadastro-aluno" className="btn btn-primary btn-sm mt-3">
+                          <Link to="/cadastrar-aluno" className="btn btn-primary btn-sm mt-3">
                             <i className="bi bi-plus-circle me-1"></i>
                             Cadastrar o primeiro aluno
                           </Link>
@@ -348,7 +348,7 @@ const ListagemAlunos = ({ alunosProp }) => {
             </div>
             <div>
               {isAuthenticated && (
-                <Link to="/cadastro-aluno" className="btn btn-sm btn-success">
+                <Link to="/cadastrar-aluno" className="btn btn-sm btn-success">
                   <i className="bi bi-plus-circle me-1"></i>
                   Cadastrar novo aluno
                 </Link>
