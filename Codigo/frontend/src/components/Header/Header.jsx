@@ -1,41 +1,60 @@
-import { useEffect, useState } from 'react'
-import { Link, NavLink,useLocation } from 'react-router-dom'
-import { Sun, Moon } from 'lucide-react'
-
-
+import { Link, NavLink, useLocation } from 'react-router-dom';
+import { ArrowLeft } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
 export default function Header() {
-  
-  const [tema, setTema] = useState(() => localStorage.getItem('tema') || 'dark')
   const location = useLocation();
   const isLandingPage = location.pathname === '/landingpage';
-
-  useEffect(() => {
-    const html = document.documentElement
-    tema === 'light' ? html.setAttribute('data-theme', 'light') : html.removeAttribute('data-theme')
-    localStorage.setItem('tema', tema)
-  }, [tema])
+  const navigate = useNavigate();
 
   return (
     <header className="header">
       <div className="container header-row">
-        <Link to="/" className="brand">
-  
-</Link>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+          {/* Botão de voltar */}
+          {location.pathname !== '/' &&
+            !location.pathname.startsWith('/dashboard') && (
+              <button
+                className="back-button"
+                onClick={() => {
+                  const path = location.pathname || '';
+                  // Se estiver em páginas de acervo, volta pra listagem
+                  if (
+                    /^\/acervo(\/\d+)?/.test(path) ||
+                    path.startsWith('/editar-acervo') ||
+                    path.startsWith('/cadastro-acervo') ||
+                    path.startsWith('/listagemacervo')
+                  ) {
+                    navigate('/listagemacervo');
+                    return;
+                  }
+                  // Senão, tenta voltar no histórico
+                  if (window.history.length > 1) navigate(-1);
+                  else navigate('/');
+                }}
+                aria-label="Voltar"
+              >
+                <ArrowLeft size={18} color="white"/>
+              </button>
+            )}
 
+         
+        </div>
 
         <nav className="nav">
-          <NavLink to="/listagem-aluno" end>Início</NavLink>
+          <NavLink to="/" end>
+            Início
+          </NavLink>
         </nav>
-        {isLandingPage && (<Link to="/login" className="header-login-button">Login</Link>)}
-        <div className="user" style={{ gap: 12 }}>
-          <button onClick={() => setTema(tema === 'dark' ? 'light' : 'dark')} className="btn">
-            {tema === 'dark' ? <Sun size={19} color='white'/> : <Moon size ={19} />}
-          </button>
 
-          
-        </div>
+        {isLandingPage && (
+          <Link to="/login" className="header-login-button">
+            Login
+          </Link>
+        )}
+
+        <div className="user" style={{ gap: 12 }}></div>
       </div>
     </header>
-  )
+  );
 }

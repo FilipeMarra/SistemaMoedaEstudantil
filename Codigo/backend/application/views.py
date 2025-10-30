@@ -54,8 +54,16 @@ class TransferirMoedasView(APIView):
                 tipo="ENVIO",
                 valor=valor,
                 professor=None,
-                aluno=destinatario_aluno,
+                aluno=remetente_aluno,
                 mensagem=f"Transferência de {valor} moedas de {remetente_aluno.perfil.user.username} para {destinatario_aluno.perfil.user.username}"
+            )
+
+            Transacao.objects.create(
+                tipo="RECEBIDO",
+                valor=valor,
+                professor=None,
+                aluno=destinatario_aluno,
+                mensagem=f"Recebeu {valor} moedas de {remetente_aluno.perfil.user.username} para {destinatario_aluno.perfil.user.username}"
             )
 
             return Response({
@@ -93,6 +101,18 @@ class AlunoViewSet(ModelViewSet):
         """Retorna os 3 últimos alunos cadastrados."""
         alunos_recentes = Aluno.objects.all().order_by('-id')[:3]
         serializer = self.get_serializer(alunos_recentes, many=True)
+        return Response(serializer.data)
+
+class TransacaoViewSet(ModelViewSet):
+    queryset = Transacao.objects.all()
+    serializer_class = TransacaoSerializer
+    permission_classes = [permissions.AllowAny]
+
+    @action(detail=False, methods=['get'])
+    def recentes(self, request):
+        """Retorna os 3 últimas transações cadastrados."""
+        transacao_recentes = Transacao.objects.all().order_by('-id')[:3]
+        serializer = self.get_serializer(transacao_recentes, many=True)
         return Response(serializer.data)
 
 class EmpresasParceirasSet(ModelViewSet):

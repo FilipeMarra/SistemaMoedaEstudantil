@@ -106,6 +106,7 @@ class Transacao(models.Model):
     TIPO_TRANSACAO = [
         ('ENVIO', 'Envio de Moedas (Professor → Aluno)'),
         ('RESGATE', 'Resgate de Vantagem (Aluno → Empresa)'),
+        ('RECEBIDO', 'Recebeu Moedas (Aluno → Professor)'),
     ]
 
     id_transacao = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
