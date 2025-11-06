@@ -5,7 +5,12 @@ import ListagemAlunoPage from '../pages/ListagemAlunoPage';
 import DashboardAlunoPage from '../pages/DashBoardAlunoPage';
 import TransferirPage from '../pages/TransferirPage';
 import ExtratoPage from '../pages/ExtratoPage';
+import CadastroProfessorPage from '../pages/CadastroProfessorPage';
+import CadastraEmpresaPage from '../pages/CadastraEmpresaPage';
+import CadastraVantagemPage from '../pages/CadastraVantagemPage';
+
 import RequireAuth from './RequireAuth';
+import VantagemPage from '../pages/VantagemListagemPage';
 
 const AppRoutes = () => {
   return (
@@ -19,6 +24,10 @@ const AppRoutes = () => {
         <Route path="/dashboard-aluno" element={<RequireAuth><DashboardAlunoPage/></RequireAuth>}/>
         <Route path="/transferir" element={<RequireAuth><TransferirPage/></RequireAuth>}/>
         <Route path="/extrato" element={<RequireAuth><ExtratoPage/></RequireAuth>}/>
+        <Route path="/vantagens" element={<RequireAuth><VantagemPage/></RequireAuth>}/>
+        <Route path="/cadastro-professor" element={<RequireAuth><CadastroProfessorPage/></RequireAuth>} />
+        <Route path="/cadastra-vantagem" element={<RequireAuth><CadastraVantagemPage/></RequireAuth>} />
+        <Route path="/cadastra-empresa" element={<RequireAuth><CadastraEmpresaPage/></RequireAuth>} />
       </Routes>
     </Router>
   );

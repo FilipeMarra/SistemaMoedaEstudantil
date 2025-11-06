@@ -17,17 +17,14 @@ const TransferirMoedas = () => {
   
 const user = getUserFromToken();
 
-console.log("Usuário logado:", user);
 
 
   useEffect(() => {
     const fetchAlunos = async () => {
       try {
         const res = await fetch(API_ALUNOS);
-        console.log(res)
         if (!res.ok) throw new Error("Falha ao carregar alunos");
         const data = await res.json();
-        console.log(data);
         setAlunos(data);
       } catch (err) {
         console.error(err);
@@ -43,9 +40,6 @@ useEffect(() => {
     return;
   }
 
-  console.log("🟢 Digitando:", busca);
-  console.log("👥 Alunos carregados:", alunos.length);
-
   const filtrados = alunos.filter(a => {
     const nome = a.perfil_detalhes.user.username || "";
     return (
@@ -53,7 +47,6 @@ useEffect(() => {
     );
   });
 
-  console.log("💡 Sugestões:", filtrados);
   setSugestoes(filtrados.slice(0, 5));
 }, [busca, alunos]);
 
