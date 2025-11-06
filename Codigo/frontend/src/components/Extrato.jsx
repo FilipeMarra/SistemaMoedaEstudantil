@@ -14,9 +14,26 @@ const ExtratoListagem = ({ transacoesProp }) => {
   const [query, setQuery] = useState('');
   const [sortBy, setSortBy] = useState('nome'); 
   const [sortDir, setSortDir] = useState('asc');
-  
+  const [saldo, setSaldo] = useState(null);
+
   const user = getUserFromToken();
   
+  useEffect(() => {
+  const fetchSaldo = async () => {
+    try {
+      const response = await fetch(`${API_URL}/saldo/?id=${user.id}`);
+      if (!response.ok) throw new Error('Erro ao buscar saldo');
+      const data = await response.json();
+      setSaldo(data.saldo);
+    } catch (err) {
+      console.error(err);
+      setSaldo(null);
+    }
+  };
+
+  fetchSaldo();
+}, []);
+
   // Buscar transações reais da API
   useEffect(() => {
     const fetchTransacoes = async () => {
@@ -32,18 +49,16 @@ const ExtratoListagem = ({ transacoesProp }) => {
         // Caso contrário, tente buscar da API
         // Como o axios não está disponível, vamos usar fetch nativo
         const response = await fetch(`${API_URL}/transacoes/`);
-        
-        
-
+      
+        //console.log('Resposta da API de transações:', response); // <-- log da resposta
         if (!response.ok) {
           throw new Error(`Erro ao buscar transações: ${response.status}`);
         }
         
         const data = await response.json();
-        console.log(user.id);
-        console.log(data)
+
         const transacoesFiltradas = data.filter(
-        (t) => t.aluno === user.id || t.aluno_detalhes?.perfil_detalhes?.id === user.id
+        (t) => t.aluno === user.id || t.aluno_detalhes?.perfil_detalhes?.user_detalhes?.id === user?.id
         );
         // Apenas use os dados da API, sem fallback para dados de demonstração
         setTransacoes(transacoesFiltradas);
@@ -111,8 +126,17 @@ const ExtratoListagem = ({ transacoesProp }) => {
                 <i className="bi bi-arrow-repeat spinner"></i> Carregando...
               </small>
             )}
+            
           </h2>
+
+          {saldo !== null && (
+            <div className="saldo-box bg-dark text-light p-3 rounded shadow-sm">
+              <strong>Saldo atual: </strong> 
+              <span className="text-success">R$ {Number(saldo).toFixed(2)}</span>
+            </div>
+          )}
         </div>
+
 
         {/* Mensagem de erro */}
         {error && (
@@ -266,7 +290,13 @@ const ExtratoListagem = ({ transacoesProp }) => {
                     return (
                       <tr key={transacao.id} className="align-middle">
                         <td className="col-id">{transacao.id}</td>
-                        <td className="col-nome fw-bold">{transacao.aluno_detalhes.perfil_detalhes.user.username || 'Sem nome'}</td>
+                        <td className="col-nome fw-bold">
+                          {transacao.tipo === 'RECEBIDO'
+                            ? transacao.professor_detalhes?.perfil_detalhes?.user_detalhes?.username || 'Professor não informado'
+                            : transacao.tipo === 'ENVIO'
+                            ? transacao.aluno_detalhes?.perfil_detalhes?.user_detalhes?.username || 'Aluno não informado'
+                            : transacao.vantagem_detalhes?.nome || 'Item não informado'}
+                        </td>                       
                         <td className="col-desc">{transacao.tipo || 'Sem tipo'}</td>
                         <td className="col-desc">{transacao.valor || 'Sem valor'}</td>
                         <td className="col-desc">{transacao.data || 'Sem data'}</td>

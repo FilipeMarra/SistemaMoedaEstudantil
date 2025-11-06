@@ -51,7 +51,11 @@ class Curso(models.Model):
 # ALUNO
 # ==========================================================
 class Aluno(models.Model):
-    perfil = models.OneToOneField(PerfilUsuario, on_delete=models.CASCADE, related_name='aluno')
+    perfil = models.OneToOneField(
+        PerfilUsuario,
+        on_delete=models.CASCADE,
+        related_name='aluno_perfil'
+    )    
     instituicao = models.ForeignKey(InstituicaoEnsino, on_delete=models.CASCADE, related_name='alunos')
     curso = models.ForeignKey(Curso, on_delete=models.SET_NULL, null=True, blank=True)
     saldo = models.DecimalField(max_digits=10, decimal_places=2, default=0)
@@ -63,7 +67,11 @@ class Aluno(models.Model):
 # PROFESSOR
 # ==========================================================
 class Professor(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='professor')
+    perfil = models.OneToOneField(
+        PerfilUsuario,
+        on_delete=models.CASCADE,
+        related_name='professor_perfil'
+    )  
     instituicao = models.ForeignKey(InstituicaoEnsino, on_delete=models.CASCADE, related_name='professores')
     departamento = models.CharField(max_length=255)
     saldo = models.DecimalField(max_digits=10, decimal_places=2, default=1000)
@@ -76,7 +84,11 @@ class Professor(models.Model):
 # EMPRESA PARCEIRA
 # ==========================================================
 class EmpresaParceira(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='empresa')
+    perfil = models.OneToOneField(
+        PerfilUsuario,
+        on_delete=models.CASCADE,
+        related_name='empresa_perfil'
+    )        
     nome_fantasia = models.CharField(max_length=255)
     cnpj = models.CharField(max_length=20, unique=True)
     descricao = models.TextField(blank=True, null=True)
