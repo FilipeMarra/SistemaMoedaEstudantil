@@ -67,7 +67,7 @@ const ListagemAlunos = ({ alunosProp }) => {
       if (!q) return true;
       return (
         String(a.id).includes(q) ||
-        (a.perfil_detalhes.user.username ?? '').toLowerCase().includes(q)
+        (a.perfil_detalhes?.user?.username ?? '').toLowerCase().includes(q)
       );
     });
 
@@ -297,11 +297,11 @@ const ListagemAlunos = ({ alunosProp }) => {
                   filtered.map((aluno) => {
                     console.log('aluno recebido:', aluno); // <-- aqui o log
                     return (
-                      <tr key={aluno.id} className="align-middle">
-                        <td className="col-id">{aluno.id}</td>
-                        <td className="col-nome fw-bold">{aluno.perfil_detalhes.user.username || 'Sem nome'}</td>
-                        <td className="col-desc">{aluno.curso_detalhes.nome || 'Sem curso'}</td>
-                        <td className="col-desc">{aluno.instituicao_detalhes.nome || 'Sem instituição'}</td>
+                      <tr key={aluno?.id} className="align-middle">
+                        <td className="col-id">{aluno?.id}</td>
+                        <td className="col-nome fw-bold">{aluno.perfil_detalhes?.user_detalhes?.username || 'Sem nome'}</td>
+                        <td className="col-desc">{aluno?.curso_detalhes?.nome || 'Sem curso'}</td>
+                        <td className="col-desc">{aluno?.instituicao_detalhes?.nome || 'Sem instituição'}</td>
                         <td className="col-acao text-center">
                           <div className="btn-group">
                             <Link to={`/aluno/${aluno.id}`} className="btn btn-info btn-sm">

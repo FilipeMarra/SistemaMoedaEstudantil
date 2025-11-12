@@ -12,6 +12,12 @@ from rest_framework.response import Response
 from decimal import Decimal
 # from rest_framework.permissions import IsAuthenticated
 
+class MeView(APIView):
+    permission_classes = [AllowAny]
+
+    def get(self, request):
+        serializer = UsuarioCompletoSerializer(request.user)
+        return Response(serializer.data)
 
 class SaldoView(APIView):
     """
@@ -230,3 +236,16 @@ class VantagemViewSet(ModelViewSet):
 
         except Exception as e:
             return Response({"erro": str(e)}, status=status.HTTP_400_BAD_REQUEST)    
+
+
+class UsuarioByIdView(APIView):
+    permission_classes = [AllowAny]  # você pode trocar para IsAuthenticated se quiser
+
+    def get(self, request, user_id):
+        try:
+            user = User.objects.get(id=user_id)
+        except User.DoesNotExist:
+            return Response({"erro": "Usuário não encontrado"}, status=404)
+
+        serializer = UsuarioCompletoSerializer(user)
+        return Response(serializer.data)        

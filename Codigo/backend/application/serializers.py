@@ -32,7 +32,8 @@ class PerfilUsuarioSerializer(ModelSerializer):
 
     class Meta:
         model = PerfilUsuario
-        fields = ['id', 'user_detalhes', 'tipo', 'cpf', 'rg', 'endereco']
+        fields = ['id', 'user_detalhes',  'cpf', 'rg', 'endereco']
+        read_only_fields = ['tipo']  
 
 
 # ==========================================================
@@ -228,3 +229,46 @@ class TransacaoSerializer(ModelSerializer):
         ]
         
 
+class UsuarioCompletoSerializer(ModelSerializer):
+    perfil = PerfilUsuarioSerializer()
+
+    # adiciona dados do tipo ALUNO / PROFESSOR / EMPRESA
+    detalhes = SerializerMethodField()
+
+    class Meta:
+        model = User
+        fields = ['id', 'username', 'email', 'first_name', 'last_name', 'perfil', 'detalhes']
+
+    def get_detalhes(self, user):
+        perfil = user.perfil  # PerfilUsuario
+
+        if perfil.tipo == "ALUNO":
+            try:
+                aluno = Aluno.objects.get(perfil=perfil)
+                return {
+                    "tipo": "ALUNO",
+                    "saldo": aluno.saldo,
+                    "instituicao": aluno.instituicao.nome,
+                    "curso": aluno.curso.nome if aluno.curso else None
+                }
+            except Aluno.DoesNotExist:
+                return {"tipo": "ALUNO"}
+
+        elif perfil.tipo == "PROFESSOR":
+            professor = user.perfil.professor_perfil
+            return {
+                "tipo": "PROFESSOR",
+                "saldo": professor.saldo,
+                "instituicao": professor.instituicao.nome,
+                "departamento": professor.departamento
+            }
+
+        elif perfil.tipo == "EMPRESA":
+            empresa = user.perfil.empresa_perfil
+            return {
+                "tipo": "EMPRESA",
+                "nome_fantasia": empresa.nome_fantasia,
+                "cnpj": empresa.cnpj
+            }
+
+        return {}
