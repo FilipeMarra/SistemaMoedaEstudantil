@@ -19,6 +19,8 @@ urlpatterns = [
     path('alunos/cadastrar/', csrf_exempt(AlunoCreateView.as_view()), name='aluno-cadastrar'),
     path('aln/cadastrar/', AlunoCreateView.as_view()),
     path('saldo/', SaldoView.as_view(), name='consultar-saldo'),
+    path('me/', MeView.as_view(), name='me'),
+    path('usuarios/<int:user_id>/', UsuarioByIdView.as_view()),
     path('professor/cadastrar/', ProfessorCreateView.as_view()),
     path('vantagem/cadastrar/', VantagemCreateView.as_view(), name='cadastrar_vantagem'),
     path('empresa/cadastrar/', EmpresaCreateView.as_view()),
