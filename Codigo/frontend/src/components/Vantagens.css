@@ -79,3 +79,54 @@
   align-items: center;
   height: 100vh;
 }
+
+.btn-minhas-vantagens {
+  background: linear-gradient(90deg, #007bff, #00b7ff);
+  color: white;
+  border: none;
+  padding: 10px 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.btn-minhas-vantagens:hover {
+  background: linear-gradient(90deg, #0094ff, #00d0ff);
+  transform: scale(1.05);
+}
+
+/* === SALDO + BOTÃO AO LADO DIREITO DO TÍTULO === */
+.saldo-container {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  background-color: #1e1e1e;
+  padding: 10px 18px;
+  border-radius: 10px;
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.5);
+}
+
+/* Caixa do saldo dentro do container */
+.saldo-box {
+  background-color: #2a2a2a;
+  color: #f1f1f1;
+  padding: 8px 14px;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.saldo-box strong {
+  color: #fff;
+}
+
+.saldo-box span {
+  color: #00ff99;
+  font-weight: 600;
+}

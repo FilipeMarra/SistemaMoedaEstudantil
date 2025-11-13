@@ -10,63 +10,85 @@ const ExtratoListagem = ({ transacoesProp }) => {
   const [transacoes, setTransacoes] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  
-  const [query, setQuery] = useState('');
-  const [sortBy, setSortBy] = useState('nome'); 
-  const [sortDir, setSortDir] = useState('asc');
+  const [userInfo, setUserInfo] = useState(null);
   const [saldo, setSaldo] = useState(null);
+  const [query, setQuery] = useState('');
+  const [sortBy, setSortBy] = useState('nome');
+  const [sortDir, setSortDir] = useState('asc');
+  const [transacoesCarregadas, setTransacoesCarregadas] = useState(false);
 
   const user = getUserFromToken();
-  
+
+  // 🔹 Buscar informações do usuário
   useEffect(() => {
-  const fetchSaldo = async () => {
-    try {
-      const response = await fetch(`${API_URL}/saldo/?id=${user.id}`);
-      if (!response.ok) throw new Error('Erro ao buscar saldo');
-      const data = await response.json();
-      setSaldo(data.saldo);
-    } catch (err) {
-      console.error(err);
-      setSaldo(null);
+    let cancelado = false;
+
+    async function loadUser() {
+      if (!user?.id || userInfo) return;
+      try {
+        const res = await fetch(`${API_URL}/usuarios/${user.id}/`);
+        if (!res.ok) throw new Error("Erro ao buscar usuário");
+        const perfil = await res.json();
+        if (!cancelado) setUserInfo(perfil);
+      } catch (err) {
+        console.error("Erro ao carregar usuário:", err);
+      }
     }
-  };
 
-  fetchSaldo();
-}, []);
+    loadUser();
+    return () => { cancelado = true; };
+  }, [user?.id]);
 
-  // Buscar transações reais da API
+  // 🔹 Buscar saldo do usuário
   useEffect(() => {
+    if (!user?.id) return;
+
+    const fetchSaldo = async () => {
+      try {
+        const res = await fetch(`${API_URL}/saldo/?id=${user.id}`);
+        if (!res.ok) throw new Error('Erro ao buscar saldo');
+        const data = await res.json();
+        setSaldo(data.saldo);
+      } catch (err) {
+        console.error(err);
+        setSaldo(null);
+      }
+    };
+
+    fetchSaldo();
+  }, [user?.id]);
+
+  // 🔹 Buscar transações (apenas após carregar o userInfo)
+  useEffect(() => {
+    if (!userInfo || transacoesCarregadas) return;
+
     const fetchTransacoes = async () => {
       setLoading(true);
       try {
-        // Se você já tem os transações passados como prop, use-os (para testes)
-        if (transacoesProp && transacoesProp.length > 0) {
+        if (transacoesProp?.length > 0) {
           setTransacoes(transacoesProp);
-          setError(null);
+          setTransacoesCarregadas(true);
           return;
         }
 
-        // Caso contrário, tente buscar da API
-        // Como o axios não está disponível, vamos usar fetch nativo
-        const response = await fetch(`${API_URL}/transacoes/`);
-      
-        //console.log('Resposta da API de transações:', response); // <-- log da resposta
-        if (!response.ok) {
-          throw new Error(`Erro ao buscar transações: ${response.status}`);
-        }
-        
-        const data = await response.json();
+        const res = await fetch(`${API_URL}/transacoes/`);
+        if (!res.ok) throw new Error(`Erro ao buscar transações: ${res.status}`);
 
-        const transacoesFiltradas = data.filter(
-        (t) => t.aluno === user.id || t.aluno_detalhes?.perfil_detalhes?.user_detalhes?.id === user?.id
-        );
-        // Apenas use os dados da API, sem fallback para dados de demonstração
-        setTransacoes(transacoesFiltradas);
+        const data = await res.json();
+
+        let filtradas = [];
+        if (userInfo?.detalhes?.tipo === "PROFESSOR") {
+          filtradas = data.filter(t => t.tipo === "ENVIO");
+        } else if (userInfo?.detalhes?.tipo === "ALUNO") {
+          filtradas = data.filter(t => t.tipo === "RECEBIDO" || t.tipo === "COMPRA");
+        }
+
+        setTransacoes(filtradas);
         setError(null);
+        setTransacoesCarregadas(true);
       } catch (err) {
-        console.error('Erro ao buscar transacoes:', err);
-        setError('Não foi possível carregar os transacoes cadastrados.');
-        // Não use dados de backup - mostre lista vazia quando houver erro
+        console.error("Erro ao buscar transações:", err);
+        setError("Não foi possível carregar as transações.");
         setTransacoes([]);
       } finally {
         setLoading(false);
@@ -74,8 +96,9 @@ const ExtratoListagem = ({ transacoesProp }) => {
     };
 
     fetchTransacoes();
-  }, [transacoesProp]); 
+  }, [userInfo, transacoesProp, transacoesCarregadas]);
 
+  // 🔹 Ordenação e filtro
   const handleSort = (campo) => {
     if (sortBy === campo) {
       setSortDir((d) => (d === 'asc' ? 'desc' : 'asc'));
@@ -91,7 +114,7 @@ const ExtratoListagem = ({ transacoesProp }) => {
       if (!q) return true;
       return (
         String(a.id).includes(q) ||
-        (a.perfil_detalhes.user.username ?? '').toLowerCase().includes(q)
+        (a.perfil_detalhes?.user?.username ?? '').toLowerCase().includes(q)
       );
     });
 
@@ -115,7 +138,18 @@ const ExtratoListagem = ({ transacoesProp }) => {
     setSortDir('asc');
   };
 
-  return (
+  const formatarData = (dataIso) => {
+  if (!dataIso) return "Sem data";
+  const data = new Date(dataIso);
+  return data.toLocaleString("pt-BR", {
+    day: "2-digit",
+    month: "2-digit",
+    year: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
+  });
+};
+  return(
     <section className="listagem-alunos">
       <div className="la-container">
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
@@ -286,7 +320,6 @@ const ExtratoListagem = ({ transacoesProp }) => {
                   </tr>
                 ) : (
                   filtered.map((transacao) => {
-                    console.log('transacao recebido:', transacao); // <-- aqui o log
                     return (
                       <tr key={transacao.id} className="align-middle">
                         <td className="col-id">{transacao.id}</td>
@@ -299,7 +332,7 @@ const ExtratoListagem = ({ transacoesProp }) => {
                         </td>                       
                         <td className="col-desc">{transacao.tipo || 'Sem tipo'}</td>
                         <td className="col-desc">{transacao.valor || 'Sem valor'}</td>
-                        <td className="col-desc">{transacao.data || 'Sem data'}</td>
+                        <td className="col-desc">{formatarData(transacao.data) || 'Sem data'}</td>
                       </tr>
                     );
                   })

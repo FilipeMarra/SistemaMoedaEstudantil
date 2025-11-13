@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState , useEffect} from 'react';
 import Swal from 'sweetalert2';
 import './CadastroUser.css';
+import { getUserFromToken } from "../auth";
 
 const API_VANTAGEM_CREATE = 'http://localhost:8000/api/vantagem/cadastrar/';
 
@@ -12,6 +13,13 @@ const CadastraVantagem = () => {
   const [foto, setFoto] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const user = getUserFromToken();
+    if (user?.id) {
+      setEmpresaId(user.id);
+    }
+  }, []); 
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -60,11 +68,6 @@ const CadastraVantagem = () => {
     <form onSubmit={handleSubmit} className="register-form">
       <h2>Cadastrar Vantagem</h2>
       {error && <p className="error-message">{error}</p>}
-
-      <div className="form-group">
-        <label>ID da Empresa</label>
-        <input value={empresaId} onChange={(e) => setEmpresaId(e.target.value)} required />
-      </div>
 
       <div className="form-group">
         <label>Nome da Vantagem</label>

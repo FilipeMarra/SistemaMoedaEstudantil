@@ -14,7 +14,7 @@ const CadastraEmpresa = () => {
   const [descricao, setDescricao] = useState('');
   const [nomeFantasia, setNomeFantasia] = useState('');
 
-
+  
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 

@@ -4,10 +4,12 @@ import { getUserFromToken } from "../components/auth";
 import Header from "../components/Header/Header";
 import Footer from "../components/Footer/Footer";
 import "./Vantagens.css";
+import { useNavigate } from 'react-router-dom';
 
 const API_URL = "http://localhost:8000/api";
 
 const Vantagens = () => {
+  const navigate = useNavigate();
   const [vantagens, setVantagens] = useState([]);
   const [saldo, setSaldo] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -25,7 +27,9 @@ const Vantagens = () => {
         const vantagensData = await vantRes.json();
         const saldoData = await saldoRes.json();
 
-        setVantagens(vantagensData);
+        const vantagensNaoCompradas = vantagensData.filter(v => !v.comprado);
+
+        setVantagens(vantagensNaoCompradas);
         setSaldo(saldoData.saldo);
       } catch (err) {
         console.error("Erro ao carregar vantagens:", err);
@@ -81,15 +85,24 @@ const Vantagens = () => {
     <>
       <main className="vantagens-container">
         <div className="vantagens-header">
-          <h1>Vantagens Disponíveis</h1>
-          {saldo !== null && (
-            <div className="saldo-box bg-dark text-light p-3 rounded shadow-sm">
-              <strong>Saldo atual: </strong> 
-              <span className="text-success">{Number(saldo).toFixed(2)} moedas</span>
-            </div>
-          )}
-        </div>
+  <h1 className="vantagens-titulo">Vantagens Disponíveis</h1>
 
+  {saldo !== null && (
+    <div className="saldo-container">
+      <div className="saldo-box bg-dark text-light p-3 rounded shadow-sm">
+        <strong>Saldo atual:</strong>
+        <span>{Number(saldo).toFixed(2)} moedas</span>
+      </div>
+
+      <button
+        className="btn-minhas-vantagens"
+        onClick={() => navigate("/minhas-vantagens")}
+      >
+        <i className="bi bi-gift me-2"></i> Minhas Vantagens
+      </button>
+    </div>
+  )}
+</div>
         <section className="vantagens-grid">
           {vantagens.length === 0 ? (
             <p>Nenhuma vantagem cadastrada ainda.</p>
