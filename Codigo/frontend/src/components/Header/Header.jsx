@@ -11,6 +11,13 @@ export default function Header() {
     <header className="header">
       <div className="container header-row">
         <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+          <Link to="/" className="header-logo" style={{ display: 'flex', alignItems: 'center' }}>
+            <img
+              src="../public/img/logo.png" // <-- coloque aqui o caminho da sua logo
+              alt="Logo"
+              style={{ height: 50 }} // ajuste o tamanho conforme quiser
+            />
+          </Link>
           {/* Botão de voltar */}
           {location.pathname !== '/' &&
             !location.pathname.startsWith('/dashboard') && (

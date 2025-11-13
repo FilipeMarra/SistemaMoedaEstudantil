@@ -9,6 +9,7 @@ from django.utils.decorators import method_decorator
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from rest_framework.decorators import action
 from rest_framework.response import Response
+from rest_framework.exceptions import ValidationError
 from decimal import Decimal
 # from rest_framework.permissions import IsAuthenticated
 
@@ -190,7 +191,21 @@ class EmpresaCreateView(generics.CreateAPIView):
     
 class VantagemCreateView(generics.CreateAPIView):
     serializer_class = VantagemSerializer
-    permission_classes = [permissions.AllowAny]  # ou ajuste conforme sua auth
+    permission_classes = [permissions.AllowAny]  # mantém AllowAny
+
+    def perform_create(self, serializer):
+        # pega o ID do usuário que veio no corpo da requisição
+        user_id = self.request.data.get('empresa')
+
+        if not user_id:
+            raise ValidationError({"empresa": "ID do usuário não enviado."})
+
+        try:
+            empresa = EmpresaParceira.objects.get(perfil__user__id=user_id)
+        except EmpresaParceira.DoesNotExist:
+            raise ValidationError({"empresa": f"Usuário {user_id} não é uma empresa válida."})
+
+        serializer.save(empresa=empresa)
     
 class VantagemViewSet(ModelViewSet):
     queryset = Vantagem.objects.all().order_by('-id')
@@ -215,6 +230,9 @@ class VantagemViewSet(ModelViewSet):
             aluno.saldo -= custo
             aluno.save()
             
+            vantagem.comprado = True
+            vantagem.save()
+
             vantagem_id = vantagem.id
             
             print(vantagem.id)
@@ -228,7 +246,6 @@ class VantagemViewSet(ModelViewSet):
                 mensagem=f"Compra da vantagem '{vantagem.nome}' por {custo} moedas"
             )
 
-            #vantagem.delete()
             return Response({
                 "mensagem": "Compra realizada com sucesso!",
                 "novo_saldo": aluno.saldo

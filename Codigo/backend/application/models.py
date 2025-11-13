@@ -106,7 +106,7 @@ class Vantagem(models.Model):
     descricao = models.TextField()
     custo_moedas = models.DecimalField(max_digits=10, decimal_places=2)
     foto = models.ImageField(upload_to='vantagens/', blank=True, null=True)
-
+    comprado = models.BooleanField(default=False) 
     def __str__(self):
         return f"{self.nome} ({self.empresa.nome_fantasia})"
 
