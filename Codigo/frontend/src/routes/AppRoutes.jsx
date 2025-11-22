@@ -8,6 +8,8 @@ import ExtratoPage from '../pages/ExtratoPage';
 import CadastroProfessorPage from '../pages/CadastroProfessorPage';
 import CadastraEmpresaPage from '../pages/CadastraEmpresaPage';
 import CadastraVantagemPage from '../pages/CadastraVantagemPage';
+import MinhasVantagensPage from '../pages/MinhasVantagensPage';
+
 
 import RequireAuth from './RequireAuth';
 import VantagemPage from '../pages/VantagemListagemPage';
@@ -28,6 +30,7 @@ const AppRoutes = () => {
         <Route path="/cadastro-professor" element={<RequireAuth><CadastroProfessorPage/></RequireAuth>} />
         <Route path="/cadastra-vantagem" element={<RequireAuth><CadastraVantagemPage/></RequireAuth>} />
         <Route path="/cadastra-empresa" element={<RequireAuth><CadastraEmpresaPage/></RequireAuth>} />
+        <Route path="/minhas-vantagens" element={<RequireAuth><MinhasVantagensPage/></RequireAuth>} />
       </Routes>
     </Router>
   );

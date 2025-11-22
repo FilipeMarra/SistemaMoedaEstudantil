@@ -129,12 +129,13 @@ useEffect(() => {
       },
       EMAILJS_PUBLIC_KEY
     );
+    console.log(alunoSelecionado.perfil_detalhes.user_detalhes.email)
 
     await emailjs.send(
       EMAILJS_SERVICE,
       TEMPLATE_RECEIVER,
       {
-        email: alunoSelecionado.perfil_detalhes.user_detalhes.email,
+        to_email: alunoSelecionado.perfil_detalhes.user_detalhes.email,
         to_name: alunoSelecionado.perfil_detalhes.user_detalhes.username,
         sender_name: userInfo.username,
         amount: valor,

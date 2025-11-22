@@ -213,12 +213,12 @@ class VantagemViewSet(ModelViewSet):
     permission_classes = [AllowAny]
 
     @action(detail=True, methods=['post'], url_path='comprar')
-    def comprar(self, request, pk=None):
+    def comprar(self, request, pk=None):      
         try:
-            user_id = request.data.get("user_id")
+            user_id = request.data.get("user_id")          
             vantagem = self.get_object()
             # Tenta achar o aluno logado
-            aluno = Aluno.objects.filter(perfil__user__id=user_id).first()
+            aluno = Aluno.objects.filter(perfil__user__id=user_id).first()          
             if not aluno:
                 return Response({"erro": "Aluno não encontrado."}, status=status.HTTP_404_NOT_FOUND)
             custo = Decimal(vantagem.custo_moedas)
@@ -228,7 +228,7 @@ class VantagemViewSet(ModelViewSet):
 
             # Desconta
             aluno.saldo -= custo
-            aluno.save()
+            aluno.save()           
             
             vantagem.comprado = True
             vantagem.save()
@@ -253,6 +253,22 @@ class VantagemViewSet(ModelViewSet):
 
         except Exception as e:
             return Response({"erro": str(e)}, status=status.HTTP_400_BAD_REQUEST)    
+    @action(detail=False, methods=['get'], url_path='minhas')
+    def minhas(self, request):
+        user_id = request.query_params.get("user_id")
+        if not user_id:
+            return Response({"erro": "user_id é obrigatório."}, status=status.HTTP_400_BAD_REQUEST)
+
+        # Procura o aluno vinculado ao user_id
+        aluno = Aluno.objects.filter(perfil__user__id=user_id).first()
+        if not aluno:
+            return Response({"erro": "Aluno não encontrado."}, status=status.HTTP_404_NOT_FOUND)
+
+        # Busca todas as vantagens compradas por esse aluno
+        vantagens_compradas = Vantagem.objects.filter(comprado=True, transacao__aluno=aluno).distinct()
+
+        serializer = self.get_serializer(vantagens_compradas, many=True)
+        return Response(serializer.data)
 
 
 class UsuarioByIdView(APIView):
