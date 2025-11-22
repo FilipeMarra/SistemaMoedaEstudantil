@@ -150,3 +150,27 @@ button[type="submit"]:disabled {
 [data-theme="light"] .suggestion-list li:hover {
   background-color: #e2e8f0;
 }
+
+/* --- Wrapper da página de transferência --- */
+.transfer-page-wrapper {
+  min-height: calc(100vh - 60px); /* altura total - tamanho do header (ajuste se necessário) */
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding-top: 40px;
+}
+
+
+.page-wrapper {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.page-content {
+  flex: 1;
+  display: flex;
+  justify-content: center;   /* centraliza horizontal */
+  align-items: flex-start;   /* NÃO empurra pra baixo */
+  padding: 40px 0;           /* só dá um respiro */
+}

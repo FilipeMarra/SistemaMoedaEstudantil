@@ -13,7 +13,7 @@ export default function Header() {
         <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
           <Link to="/" className="header-logo" style={{ display: 'flex', alignItems: 'center' }}>
             <img
-              src="../public/img/logo.png" // <-- coloque aqui o caminho da sua logo
+              src="../public/img/logo-header.png" // <-- coloque aqui o caminho da sua logo
               alt="Logo"
               style={{ height: 50 }} // ajuste o tamanho conforme quiser
             />
@@ -50,7 +50,7 @@ export default function Header() {
 
         <nav className="nav">
           <NavLink to="/" end>
-            Início
+            Trust D Process
           </NavLink>
         </nav>
 

@@ -2,6 +2,8 @@
   display: flex;
   flex-direction: column;
   gap: 18px; /* Aumenta o espaçamento entre os campos */
+    min-height: 100vh;
+
 }
 
 .register-form h2 {

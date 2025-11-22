@@ -1,11 +1,9 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import Header from "../components/Header/Header";
-import Footer from "../components/Footer/Footer";
 import "../styles/LoginPage.css";
 
 const LoginPage = () => {
-  const [username, setUsername] = useState(""); // precisa usar username
+  const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const navigate = useNavigate();
@@ -19,16 +17,15 @@ const LoginPage = () => {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ username, password }), 
+        body: JSON.stringify({ username, password }),
       });
 
       if (response.ok) {
         const data = await response.json();
-
         localStorage.setItem("access", data.access);
         localStorage.setItem("refresh", data.refresh);
-       
-        navigate("/dashboard-aluno");
+
+        navigate("/dashboard");
       } else {
         setError("Usuário ou senha inválidos!");
       }
@@ -38,40 +35,52 @@ const LoginPage = () => {
   };
 
   return (
-    <>
-      <Header />
-      <main className="login-container">
-        <h1>Login</h1>
-        <form onSubmit={handleLogin} className="login-form">
-          <label>
-            Usuário:
-            <input
-              type="text"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
-              required
-            />
-          </label>
+    <div className="login-wrapper">
+      
+      {/* LADO ESQUERDO */}
+      <div className="login-left">
+        <img
+          src="../public/img/logo.png"          
+          alt="Logo"
+          className="login-logo"
+        />
 
-          <label>
-            Senha:
-            <input
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-            />
-          </label>
+        <form className="login-box" onSubmit={handleLogin}>
+          <input
+            type="text"
+            placeholder="Usuário"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+            required
+          />
+
+          <input
+            type="password"
+            placeholder="Senha"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+          />
 
           {error && <p className="error">{error}</p>}
 
-          <button type="submit" className="login-button">
-            Entrar
-          </button>
+          <button type="submit">Entrar</button>
         </form>
-      </main>
-      <div></div>
-    </>
+      </div>
+
+      {/* LADO DIREITO */}
+      <div className="login-right">
+  <video
+    src="/img/login.mp4"
+    autoPlay
+    loop
+    muted
+    playsInline
+    className="login-video"
+  />
+</div>
+
+    </div>
   );
 };
 

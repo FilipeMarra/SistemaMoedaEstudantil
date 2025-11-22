@@ -23,7 +23,7 @@ const AppRoutes = () => {
         <Route path="/cadastrar-aluno" element={<UserCadastroPage />} />
         <Route path="/login" element={<LoginPage />} /> 
         <Route path="/listagem-aluno" element={<RequireAuth><ListagemAlunoPage /></RequireAuth>} />
-        <Route path="/dashboard-aluno" element={<RequireAuth><DashboardAlunoPage/></RequireAuth>}/>
+        <Route path="/dashboard" element={<RequireAuth><DashboardAlunoPage/></RequireAuth>}/>
         <Route path="/transferir" element={<RequireAuth><TransferirPage/></RequireAuth>}/>
         <Route path="/extrato" element={<RequireAuth><ExtratoPage/></RequireAuth>}/>
         <Route path="/vantagens" element={<RequireAuth><VantagemPage/></RequireAuth>}/>

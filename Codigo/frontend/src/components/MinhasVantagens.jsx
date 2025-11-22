@@ -53,7 +53,7 @@ const MinhasVantagens = () => {
           vantagens.map((v) => (
             <div className="vantagem-card" key={v.id}>
               <img
-                src={`../../../Codigo/backend/media/${v.foto}`}
+                src={v.foto}
                 alt={v.nome}
                 className="vantagem-foto"
               />
