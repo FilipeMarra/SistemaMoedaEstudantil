@@ -12,22 +12,26 @@ const DashboardPage = () => {
 	const navigate = useNavigate();
 	const [userInfo, setUserInfo] = useState(null);
 	const user = getUserFromToken();
+	const [loading, setLoading] = useState(true);
 	
 	useEffect(() => {
-	  async function loadUser() {
-		if (!user?.id) return;
-	
-		const res = await fetch(`http://localhost:8000/api/usuarios/${user.id}/`);
-		if (res.ok) {
-		  const perfil = await res.json();
-		  setUserInfo(perfil);
-		} else {
-		  console.error("Falha ao carregar dados completos do usuário.");
+		async function loadUser() {
+			if (!user?.id) return;
+
+			const res = await fetch(`http://localhost:8000/api/usuarios/${user.id}/`);
+			if (res.ok) {
+			const perfil = await res.json();
+			setUserInfo(perfil);
+			} else {
+			console.error("Falha ao carregar dados completos do usuário.");
+			}
+
+			setLoading(false); // ✔️ certo
 		}
-	  }
-	
-	  loadUser();
-	}, [user]);
+
+		loadUser();
+		}, [user]);
+
 
 
 	const cardsAluno = [
@@ -126,7 +130,8 @@ const DashboardPage = () => {
 		},
 	];
 
-	return (
+	if(!loading)	{
+		return (
 		<>
 			<Header />
 			<main className="dashboard-container">
@@ -251,6 +256,8 @@ const DashboardPage = () => {
 			<Footer />
 		</>
 	);
+
+	}
 };
 
 export default DashboardPage;
