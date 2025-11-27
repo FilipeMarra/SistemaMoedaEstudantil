@@ -17,7 +17,7 @@ Professores/administradores podem distribuir moedas, criar vantagens e acompanha
 ### Frontend
 - **React**
 - **Vite**
-- **JavaScript / TypeScript (opcional)**
+- **JavaScript / TypeScript**
 
 ---
 
@@ -32,7 +32,7 @@ cd Codigo/backend
 Criar ambiente virtual:
 
 ```bash
-python -m venv venv
+python -m venv .venv
 ```
 
 Ativar ambiente virtual (Windows PowerShell):
