@@ -60,6 +60,14 @@
   transition: 0.2s;
 }
 
+html, body {
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden; 
+  overflow-y: hidden; 
+}
+
+
 .login-box button:hover {
   opacity: 0.8;
 }

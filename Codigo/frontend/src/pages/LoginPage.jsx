@@ -70,15 +70,15 @@ const LoginPage = () => {
 
       {/* LADO DIREITO */}
       <div className="login-right">
-  <video
-    src="/img/login.mp4"
-    autoPlay
-    loop
-    muted
-    playsInline
-    className="login-video"
-  />
-</div>
+        <video
+          src="/img/login.mp4"
+          autoPlay
+          loop
+          muted
+          playsInline
+          className="login-video"
+        />
+      </div>
 
     </div>
   );
