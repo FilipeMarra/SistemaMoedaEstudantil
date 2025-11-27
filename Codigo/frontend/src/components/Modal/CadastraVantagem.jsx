@@ -49,6 +49,11 @@ const CadastraVantagem = () => {
         icon: 'success',
         title: 'Vantagem cadastrada!',
         text: `A vantagem "${nome}" foi adicionada.`,
+        timer: 2000, 
+        showConfirmButton: false,
+        willClose: () => {
+          window.location.href = '/dashboard'
+        }
       });
 
       setEmpresaId('');

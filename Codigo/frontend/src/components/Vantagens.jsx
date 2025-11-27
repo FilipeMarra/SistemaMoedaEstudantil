@@ -111,7 +111,17 @@ const Vantagens = () => {
       
       if (res.ok ) {
         const vantagemComprada = vantagens.find(v => v.id === vantagemId);
-        Swal.fire("Compra realizada!", data.message, "success");
+        Swal.fire({
+                icon: 'success',
+                title: 'Compra realizada!',
+                text: `A vantagem foi comprada.`,
+                timer: 2000, 
+                showConfirmButton: false,
+                willClose: () => {
+                  window.location.href = '/vantagens'
+                }
+              });
+        
         setSaldo(data.novo_saldo);
         setVantagens((prev) => prev.filter((v) => v.id !== vantagemId));
 
