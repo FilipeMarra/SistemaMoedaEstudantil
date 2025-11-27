@@ -1,5 +1,4 @@
 
-````md
 # Trust D Process – Sistema de Moeda Estudantil
 
 O **Trust D Process** é um sistema de moeda estudantil desenvolvido para instituições de ensino que desejam incentivar alunos por meio de recompensas, gamificação e economia interna.  
