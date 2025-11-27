@@ -9,8 +9,7 @@ Professores/administradores podem distribuir moedas, criar vantagens e acompanha
 ## 🚀 Tecnologias Utilizadas
 
 ### Backend
-- **Python 3**
-- **Django**
+- **Python**
 - **Django REST Framework**
 - **PostgreSQL**
 
