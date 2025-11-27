@@ -5,6 +5,7 @@ import Header from "../components/Header/Header";
 import Footer from "../components/Footer/Footer";
 import "./Vantagens.css";
 import { useNavigate } from 'react-router-dom';
+import emailjs from "@emailjs/browser";
 
 const API_URL = "http://localhost:8000/api";
 
@@ -14,6 +15,50 @@ const Vantagens = () => {
   const [saldo, setSaldo] = useState(null);
   const [loading, setLoading] = useState(true);
   const user = getUserFromToken();
+  const [userInfo, setUserInfo] = useState(null);
+
+  useEffect(() => {
+    async function loadUser() {
+      if (!user?.id) return;
+  
+      const res = await fetch(`http://localhost:8000/api/usuarios/${user.id}/`);
+      if (res.ok) {
+        const perfil = await res.json();
+        setUserInfo(perfil);
+      } else {
+        console.error("Falha ao carregar dados completos do usuário.");
+      }
+    }
+  
+    loadUser();
+  }, [user]);
+
+  const EMAILJS_SERVICE = "service_xyynlic";
+  const TEMPLATE_RECEIVER = "template_1e6je2d";
+  const EMAILJS_PUBLIC_KEY = "Q2o_F6PwmmVq2sz9q";
+
+  
+  const enviarEmailVantagem = (vantagem) => {
+  emailjs.send(
+    EMAILJS_SERVICE,
+    TEMPLATE_RECEIVER,
+    {
+      to_email: userInfo.email,
+      name: userInfo.name,
+      time: new Date().toLocaleString(),
+      vantagem_nome: vantagem.nome,
+      vantagem_valor: vantagem.custo_moedas,
+      vantagem_image: `http://localhost:8000${vantagem.foto}`,
+    },
+    EMAILJS_PUBLIC_KEY
+  )
+  .then(() => {
+    console.log("📧 Email enviado com sucesso!");
+  })
+  .catch((err) => {
+    console.error("Erro ao enviar email:", err);
+  });
+};
 
   // Buscar saldo e vantagens ao carregar
   useEffect(() => {
@@ -43,6 +88,12 @@ const Vantagens = () => {
   }, [user.id]);
 
   const handleComprar = async (vantagemId, custo) => {
+
+    if (!userInfo) {
+      Swal.fire("Aguarde", "Carregando informações do usuário...", "info");
+      return;
+    }
+
     if (saldo < custo) {
       Swal.fire("Saldo insuficiente", "Você não tem moedas suficientes.", "warning");
       return;
@@ -59,9 +110,14 @@ const Vantagens = () => {
 
       
       if (res.ok ) {
+        const vantagemComprada = vantagens.find(v => v.id === vantagemId);
         Swal.fire("Compra realizada!", data.message, "success");
         setSaldo(data.novo_saldo);
         setVantagens((prev) => prev.filter((v) => v.id !== vantagemId));
+
+         if (vantagemComprada) {
+          enviarEmailVantagem(vantagemComprada);
+         }
       } else {
         Swal.fire("Erro", data.message || "Falha ao realizar compra.", "error");
       }

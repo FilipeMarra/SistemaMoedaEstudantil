@@ -204,8 +204,18 @@ class EmpresaSerializer(ModelSerializer):
 class VantagemSerializer(ModelSerializer):
     class Meta:
         model = Vantagem
-        fields = ['id', 'empresa', 'nome', 'descricao', 'custo_moedas', 'foto', 'comprado']        
-        read_only_fields = ['empresa', 'comprado'] 
+        fields = [
+            'id',
+            'empresa',
+            'nome',
+            'descricao',
+            'custo_moedas',
+            'foto',
+            'comprado',
+            'codigo',   
+        ]
+        read_only_fields = ['empresa', 'comprado', 'codigo']
+
 class TransacaoSerializer(ModelSerializer):
     # Campos detalhados (somente leitura)
     professor_detalhes = ProfessorSerializer(source='professor', read_only=True)

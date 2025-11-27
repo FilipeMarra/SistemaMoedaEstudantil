@@ -115,8 +115,6 @@ useEffect(() => {
     // ================================
     // ENVIO DE EMAILS APÓS TRANSFERIR
     // ================================
-    console.log(userInfo)
-    console.log(alunoSelecionado,"aluno")
     await emailjs.send(
       EMAILJS_SERVICE,
       TEMPLATE_SENDER,

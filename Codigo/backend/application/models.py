@@ -100,15 +100,44 @@ class EmpresaParceira(models.Model):
 # ==========================================================
 # VANTAGENS
 # ==========================================================
+import string
+import random
+
 class Vantagem(models.Model):
     empresa = models.ForeignKey(EmpresaParceira, on_delete=models.CASCADE, related_name='vantagens')
     nome = models.CharField(max_length=255)
     descricao = models.TextField()
     custo_moedas = models.DecimalField(max_digits=10, decimal_places=2)
     foto = models.ImageField(upload_to='vantagens/', blank=True, null=True)
-    comprado = models.BooleanField(default=False) 
+    comprado = models.BooleanField(default=False)
+
+    # NOVO CAMPO
+    codigo = models.CharField(max_length=6, unique=True, editable=False, blank=True)
+
     def __str__(self):
         return f"{self.nome} ({self.empresa.nome_fantasia})"
+
+    # ------------------------
+    # Gera um código único
+    # ------------------------
+    def gerar_codigo(self):
+        letras_numeros = string.ascii_uppercase + string.digits
+        return ''.join(random.choices(letras_numeros, k=6))
+
+    # ------------------------
+    # Override do save()
+    # ------------------------
+    def save(self, *args, **kwargs):
+        if not self.codigo:  # Apenas quando criar
+            novo_codigo = self.gerar_codigo()
+            # Garante unicidade
+            while Vantagem.objects.filter(codigo=novo_codigo).exists():
+                novo_codigo = self.gerar_codigo()
+
+            self.codigo = novo_codigo
+
+        super().save(*args, **kwargs)
+
 
 
 # ==========================================================
