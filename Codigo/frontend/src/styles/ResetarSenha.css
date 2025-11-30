@@ -1,0 +1,118 @@
+/* WRAPPER PRINCIPAL */
+.resetar-wrapper {
+  display: flex;
+  height: 100vh;
+  width: 100%;
+  background-color: #0f0f0f;
+  overflow: hidden;
+}
+
+/* LADO ESQUERDO */
+.resetar-left {
+  width: 50%;
+  background: #121212;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px;
+}
+
+/* LOGO */
+.resetar-logo {
+   width: 220px;
+   margin-bottom: 30px;
+   user-select: none;
+}
+
+/* CAIXA DO FORM */
+.resetar-box {
+  width: 100%;
+  max-width: 380px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.resetar-box h2 {
+  text-align: center;
+  font-size: 26px;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 10px;
+}
+
+/* INPUT */
+.resetar-box input {
+  width: 100%;
+  padding: 14px;
+  border-radius: 8px;
+  border: 1px solid #0e1825;
+  background: #1e293b;
+  outline: none;
+  font-size: 15px;
+  transition: 0.2s ease;
+}
+
+.resetar-box input:focus {
+  border-color: #f4c430; /* amarelo moedaestudantil */
+}
+
+/* BOTÃO */
+.resetar-box button {
+  background-color: #f4c430; /* amarelo dinheiro */
+  padding: 14px;
+  border-radius: 8px;
+  font-size: 16px;
+  border: none;
+  cursor: pointer;
+  font-weight: bold;
+  transition: 0.2s ease;
+}
+
+.resetar-box button:hover {
+  background-color: #ddb224;
+}
+
+/* MENSAGEM */
+.resetar-msg {
+  text-align: center;
+  margin-top: 5px;
+  color: #f1c40f;
+  font-size: 14px;
+}
+
+/* LINK VOLTAR */
+.resetar-links a {
+  font-size: 14px;
+  color: #f1c40f;
+  text-decoration: none;
+  text-align: center;
+  display: block;
+}
+
+.resetar-links a:hover {
+  text-decoration: underline;
+}
+
+/* LADO DIREITO */
+.resetar-right {
+  width: 50%;
+}
+
+.resetar-video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* RESPONSIVIDADE */
+@media (max-width: 900px) {
+  .resetar-right {
+    display: none;
+  }
+
+  .resetar-left {
+    width: 100%;
+  }
+}

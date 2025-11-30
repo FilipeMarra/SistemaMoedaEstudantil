@@ -89,7 +89,7 @@ const CadastroUser = () => {
       const res = await fetch(API_ALUNO_CREATE, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        credentials: "omit", // 👈 ESSENCIAL!
+        credentials: "omit", 
         body: JSON.stringify(payload),
       });
 
@@ -145,7 +145,7 @@ const CadastroUser = () => {
       {error && <p className="error-message">{error}</p>}
 
       <div className="form-group">
-        <label>Nome completo</label>
+        <label>Username</label>
         <input value={name} onChange={(e) => setName(e.target.value)} required />
       </div>
 

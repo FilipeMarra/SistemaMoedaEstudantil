@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import "../styles/LoginPage.css";
 
 const LoginPage = () => {
@@ -24,7 +24,6 @@ const LoginPage = () => {
         const data = await response.json();
         localStorage.setItem("access", data.access);
         localStorage.setItem("refresh", data.refresh);
-
         navigate("/dashboard");
       } else {
         setError("Usuário ou senha inválidos!");
@@ -36,11 +35,11 @@ const LoginPage = () => {
 
   return (
     <div className="login-wrapper">
-      
+
       {/* LADO ESQUERDO */}
       <div className="login-left">
         <img
-          src="../public/img/logo.png"          
+          src="../public/img/logo.png"
           alt="Logo"
           className="login-logo"
         />
@@ -65,6 +64,12 @@ const LoginPage = () => {
           {error && <p className="error">{error}</p>}
 
           <button type="submit">Entrar</button>
+
+          {/* LINKS ADICIONADOS */}
+          <div className="login-links">
+            <Link to="/recuperar-senha">Esqueceu sua senha? Clique aqui.</Link>
+            <Link to="/cadastro">Não possui uma conta? Cadastre-se.</Link>
+          </div>
         </form>
       </div>
 

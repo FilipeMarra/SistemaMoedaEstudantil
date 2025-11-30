@@ -37,28 +37,28 @@ const Vantagens = () => {
   const TEMPLATE_RECEIVER = "template_1e6je2d";
   const EMAILJS_PUBLIC_KEY = "Q2o_F6PwmmVq2sz9q";
 
-  
   const enviarEmailVantagem = (vantagem) => {
-  emailjs.send(
-    EMAILJS_SERVICE,
-    TEMPLATE_RECEIVER,
-    {
-      to_email: userInfo.email,
-      name: userInfo.name,
-      time: new Date().toLocaleString(),
-      vantagem_nome: vantagem.nome,
-      vantagem_valor: vantagem.custo_moedas,
-      vantagem_image: `http://localhost:8000${vantagem.foto}`,
-    },
-    EMAILJS_PUBLIC_KEY
-  )
-  .then(() => {
-    console.log("📧 Email enviado com sucesso!");
-  })
-  .catch((err) => {
-    console.error("Erro ao enviar email:", err);
-  });
-};
+    console.log(vantagem.foto)
+    emailjs.send(
+      EMAILJS_SERVICE,
+      TEMPLATE_RECEIVER,
+      {
+        to_email: userInfo.email,
+        name: userInfo.username,
+        time: new Date().toLocaleString(),
+        vantagem_nome: vantagem.nome,
+        vantagem_valor: vantagem.custo_moedas,
+        vantagem_image: vantagem.foto_url,
+      },
+      EMAILJS_PUBLIC_KEY
+    )
+    .then(() => {
+      console.log("📧 Email enviado com sucesso!");
+    })
+    .catch((err) => {
+      console.error("Erro ao enviar email:", err);
+    });
+  };
 
   // Buscar saldo e vantagens ao carregar
   useEffect(() => {
@@ -74,6 +74,7 @@ const Vantagens = () => {
 
         const vantagensNaoCompradas = vantagensData.filter(v => !v.comprado);
 
+        console.log(vantagensNaoCompradas)
         setVantagens(vantagensNaoCompradas);
         setSaldo(saldoData.saldo);
       } catch (err) {
@@ -115,7 +116,7 @@ const Vantagens = () => {
                 icon: 'success',
                 title: 'Compra realizada!',
                 text: `A vantagem foi comprada.`,
-                timer: 2000, 
+                timer: 10000, 
                 showConfirmButton: false,
                 willClose: () => {
                   window.location.href = '/vantagens'
@@ -176,7 +177,7 @@ const Vantagens = () => {
             vantagens.map((v) => (
               <div className="vantagem-card" key={v.id}>
                 <img
-                    src={v.foto}
+                    src={v.foto_url}
                     alt={v.nome}
                     className="vantagem-foto"
                     />

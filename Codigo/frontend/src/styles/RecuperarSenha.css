@@ -1,5 +1,5 @@
-/* ---- LAYOUT GERAL ---- */
-.login-wrapper {
+/* ---- LAYOUT GERAL (igual ao login) ---- */
+.recuperar-wrapper {
   display: flex;
   width: 100vw;
   height: 100vh;
@@ -8,23 +8,23 @@
 }
 
 /* ---- LADO ESQUERDO ---- */
-.login-left {
+.recuperar-left {
   width: 40%;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   padding: 40px;
-  background: #121212; /* fundo escuro bonito */
+  background: #121212;
 }
 
-.login-logo {
+.recuperar-logo {
   width: 300px;
   filter: brightness(1.2);
 }
 
-/* ---- BOX DO LOGIN ---- */
-.login-box {
+/* ---- BOX DE RECUPERAÇÃO ---- */
+.recuperar-box {
   width: 100%;
   max-width: 350px;
   display: flex;
@@ -32,7 +32,7 @@
   gap: 1.2rem;
 }
 
-.login-box input {
+.recuperar-box input {
   padding: 12px;
   border-radius: 8px;
   border: 1px solid #0e1825;
@@ -43,13 +43,13 @@
   transition: 0.2s;
 }
 
-.login-box input:focus {
+.recuperar-box input:focus {
   border-color: #6ee7b7;
   box-shadow: 0 0 0 2px rgba(110, 231, 183, 0.2);
 }
 
 /* ---- BOTÃO ---- */
-.login-box button {
+.recuperar-box button {
   padding: 12px;
   border-radius: 8px;
   border: none;
@@ -60,70 +60,59 @@
   transition: 0.2s;
 }
 
-html, body {
-  margin: 0;
-  padding: 0;
-  overflow-x: hidden; 
+.recuperar-box button:hover {
+  opacity: 0.85;
 }
 
-
-.login-box button:hover {
-  opacity: 0.8;
-}
-
-/* ---- ERRO ---- */
-.error {
-  color: #ef4444;
+/* ---- MENSAGEM ---- */
+.msg {
+  text-align: center;
+  color: #6ee7b7;
   font-size: 14px;
-  margin-top: -8px;
 }
 
 /* ---- LADO DIREITO ---- */
-.login-right {
+.recuperar-right {
   width: 60%;
   background: #0f172a;
   position: relative;
 }
 
-.login-banner {
+.recuperar-video {
   width: 100%;
   height: 100%;
-  background-image: url("/banner.jpg"); /* troque se quiser */
-  background-size: cover;
-  background-position: center;
-  opacity: 0.4; /* escurecido para combinar com dark */
+  object-fit: cover;
+  opacity: 0.45;
 }
 
-/* ---- RESPONSIVO ---- */
-@media (max-width: 900px) {
-  .login-wrapper {
-    flex-direction: column;
-  }
-
-  .login-left {
-    width: 100%;
-  }
-
-  .login-right {
-    width: 100%;
-    height: 300px;
-  }
-}
-
-.login-links {
-  margin-top: 15px;
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
+/* ---- LINK VOLTAR ---- */
+.voltar-link {
+  margin-top: 10px;
   text-align: center;
 }
 
-.login-links a {
-  color: #f1c40f; /* amarelo do vídeo/logotipo se quiser */
+.voltar-link a {
+  color: #f1c40f;
   font-size: 0.9rem;
   text-decoration: none;
 }
 
-.login-links a:hover {
+.voltar-link a:hover {
   text-decoration: underline;
+}
+
+/* ---- RESPONSIVO ---- */
+@media (max-width: 900px) {
+  .recuperar-wrapper {
+    flex-direction: column;
+  }
+
+  .recuperar-left {
+    width: 100%;
+  }
+
+  .recuperar-right {
+    width: 100%;
+    height: 300px;
+  }
 }

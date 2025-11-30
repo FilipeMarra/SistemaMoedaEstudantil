@@ -31,7 +31,7 @@ const CadastraVantagem = () => {
     formData.append('nome', nome);
     formData.append('descricao', descricao);
     formData.append('custo_moedas', custoMoedas);
-    if (foto) formData.append('foto', foto);
+    if (foto) formData.append('foto_url', foto);
 
     try {
       const res = await fetch(API_VANTAGEM_CREATE, {
@@ -90,8 +90,13 @@ const CadastraVantagem = () => {
       </div>
 
       <div className="form-group">
-        <label>Foto (opcional)</label>
-        <input type="file" accept="image/*" onChange={(e) => setFoto(e.target.files[0])} />
+        <label>URL da Imagem</label>
+        <input 
+          type="text" 
+          value={foto} 
+          onChange={(e) => setFoto(e.target.value)}  
+          placeholder="https://..."
+        />
       </div>
 
       <button type="submit" disabled={loading}>
