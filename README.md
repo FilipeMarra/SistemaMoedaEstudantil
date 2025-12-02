@@ -106,3 +106,54 @@ SistemaMoedaEstudantil/
 │
 └── README.md
 ```
+
+## 🔐 Variáveis de Ambiente
+
+O projeto utiliza variáveis de ambiente para configurar tanto o **backend (Django)** quanto o **frontend (React + Vite)**.  
+Crie um arquivo `.env` em cada parte do projeto conforme os exemplos abaixo:
+
+---
+
+### ✅ Backend (`Codigo/backend/.env`)
+
+```env
+# Chave secreta do Django
+SECRET_KEY=coloque_sua_chave_aqui
+
+# Ativar/Desativar modo debug
+DEBUG=True
+
+# Configuração do banco de dados (PostgreSQL)
+DATABASE_URL=postgres://usuario:senha@localhost:5432/nome_do_banco
+
+# Hosts permitidos
+ALLOWED_HOSTS=localhost,127.0.0.1
+```
+
+> **Dica:** Use `django-environ` ou similar para carregar essas variáveis no `settings.py`.
+
+---
+
+### ✅ Frontend (`Codigo/frontend/.env`)
+
+```env
+# URL da API do backend
+VITE_API_URL=http://localhost:8000
+
+# Variáveis adicionais do Vite
+BROWSER_ARGS=
+BROWSER=
+DOTENV_KEY=
+NODE_DISABLE_COLORS=
+VITE_DEBUG_FILTER=
+```
+
+> **Importante:** Todas as variáveis do Vite devem começar com `VITE_` para serem acessíveis no código.
+
+---
+
+### ⚠️ Observações
+- Nunca versione arquivos `.env` (adicione ao `.gitignore`).
+- Crie um arquivo `.env.example` com os nomes das variáveis para facilitar a configuração por outros desenvolvedores.
+
+
