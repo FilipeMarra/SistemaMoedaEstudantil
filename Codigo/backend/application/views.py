@@ -5,6 +5,7 @@ from rest_framework.views import APIView
 from rest_framework.permissions import IsAuthenticated ,AllowAny
 from .serializers import *
 from django.views.decorators.csrf import csrf_exempt
+from django.contrib.auth.hashers import make_password
 from django.utils.decorators import method_decorator
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from rest_framework.decorators import action
@@ -136,7 +137,24 @@ class UserViewSet(ModelViewSet):
     """
     queryset = User.objects.all().order_by('-date_joined')
     serializer_class = UserSerializer
-    # permission_classes = [IsAuthenticated]
+
+class ResetarSenha(APIView):
+    def patch(self, request):
+        email = request.data.get("email")
+        nova_senha = request.data.get("nova_senha")
+
+        if not email or not nova_senha:
+            return Response({"erro": "Dados incompletos."}, status=400)
+
+        try:
+            user = User.objects.get(email=email)
+        except User.DoesNotExist:
+            return Response({"erro": "Usuário não encontrado."}, status=404)
+
+        user.password = make_password(nova_senha)
+        user.save()
+
+        return Response({"mensagem": "Senha alterada com sucesso!"}, status=200)
 
 class AlunoViewSet(ModelViewSet):
     queryset = Aluno.objects.all()

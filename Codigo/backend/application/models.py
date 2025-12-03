@@ -108,7 +108,7 @@ class Vantagem(models.Model):
     nome = models.CharField(max_length=255)
     descricao = models.TextField()
     custo_moedas = models.DecimalField(max_digits=10, decimal_places=2)
-    foto = models.ImageField(upload_to='vantagens/', blank=True, null=True)
+    foto_url = models.URLField(max_length=500, blank=True, null=True)
     comprado = models.BooleanField(default=False)
 
     # NOVO CAMPO

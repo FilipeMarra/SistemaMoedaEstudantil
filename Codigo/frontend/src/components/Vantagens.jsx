@@ -17,6 +17,10 @@ const Vantagens = () => {
   const user = getUserFromToken();
   const [userInfo, setUserInfo] = useState(null);
 
+  const gerarQrCodeUrl = (texto) => {
+  return `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(texto)}`;
+};
+
   useEffect(() => {
     async function loadUser() {
       if (!user?.id) return;
@@ -38,7 +42,7 @@ const Vantagens = () => {
   const EMAILJS_PUBLIC_KEY = "Q2o_F6PwmmVq2sz9q";
 
   const enviarEmailVantagem = (vantagem) => {
-    console.log(vantagem.foto)
+    const qrCodeUrlGerado = gerarQrCodeUrl(vantagem.codigo);
     emailjs.send(
       EMAILJS_SERVICE,
       TEMPLATE_RECEIVER,
@@ -49,6 +53,8 @@ const Vantagens = () => {
         vantagem_nome: vantagem.nome,
         vantagem_valor: vantagem.custo_moedas,
         vantagem_image: vantagem.foto_url,
+        qrcode_url: qrCodeUrlGerado,        
+        codigo_digitado: vantagem.codigo       
       },
       EMAILJS_PUBLIC_KEY
     )

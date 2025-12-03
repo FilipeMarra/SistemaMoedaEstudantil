@@ -201,6 +201,8 @@ class EmpresaSerializer(ModelSerializer):
 
         return empresa
 
+from rest_framework.serializers import ModelSerializer
+
 class VantagemSerializer(ModelSerializer):
     class Meta:
         model = Vantagem
@@ -210,11 +212,12 @@ class VantagemSerializer(ModelSerializer):
             'nome',
             'descricao',
             'custo_moedas',
-            'foto',
+            'foto_url',      # <--- atualizado
             'comprado',
-            'codigo',   
+            'codigo',
         ]
         read_only_fields = ['empresa', 'comprado', 'codigo']
+
 
 class TransacaoSerializer(ModelSerializer):
     # Campos detalhados (somente leitura)

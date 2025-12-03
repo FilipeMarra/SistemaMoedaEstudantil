@@ -20,6 +20,7 @@ urlpatterns = [
     path('aln/cadastrar/', AlunoCreateView.as_view()),
     path('saldo/', SaldoView.as_view(), name='consultar-saldo'),
     path('me/', MeView.as_view(), name='me'),
+    path('resetar-senha/', ResetarSenha.as_view()),
     path('usuarios/<int:user_id>/', UsuarioByIdView.as_view()),
     path('professor/cadastrar/', ProfessorCreateView.as_view()),
     path('vantagem/cadastrar/', VantagemCreateView.as_view(), name='cadastrar_vantagem'),
