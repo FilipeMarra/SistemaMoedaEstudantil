@@ -11,3 +11,4 @@ tzdata==2025.2
 setuptools==68.2.2
 gunicorn
 dj-database-url
+python-dotenv
