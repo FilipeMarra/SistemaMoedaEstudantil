@@ -145,7 +145,7 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 CORS_ALLOWED_ORIGINS = [
-    "https://trustprocess-tawny.vercel.app/",
+    "https://trustprocess-tawny.vercel.app",
     "http://localhost:5173",
 ]
 
