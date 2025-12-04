@@ -26,3 +26,5 @@ dist/
 # IDEs
 .vscode/
 .idea/
+
+node_modules/
