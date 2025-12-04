@@ -28,7 +28,12 @@ SECRET_KEY = 'django-insecure-5ge4n7n1^sm_p^)c(16t%_jcyaj@_t=y0*vumq8iat=vskr0=w
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    'trustdprocess.onrender.com',
+    'localhost',
+    '127.0.0.1'
+]
+
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
@@ -140,7 +145,8 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 CORS_ALLOWED_ORIGINS = [
-    "https://trust-d-process.vercel.app",
+    "https://trustprocess-tawny.vercel.app/",
+    "http://localhost:5173",
 ]
 
 MEDIA_URL = '/media/'
