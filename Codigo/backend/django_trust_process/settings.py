@@ -139,11 +139,9 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-# Configurações CORS para permitir que o frontend acesse o backend
-CORS_ALLOW_ALL_ORIGINS = True  # Em produção, você deve especificar apenas as origens permitidas
-# CORS_ALLOWED_ORIGINS = [
-#     "http://localhost:5173",  # URL do frontend React
-# ]
+CORS_ALLOWED_ORIGINS = [
+    "https://trust-d-process.vercel.app",
+]
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
